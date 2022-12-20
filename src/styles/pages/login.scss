@@ -1,0 +1,42 @@
+@import './register.scss';
+
+.greeting-login {
+   @include flexCenter;
+   flex-direction: column;
+   flex: 1;
+   gap: 0.5rem;
+   padding: 0.5rem;
+   background-color: #ffff;
+   color: #6b6bbd;
+
+   h1 {
+      font-size: 2rem;
+   }
+
+   .greeting-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      width: 80%;
+      text-align: center;
+   }
+
+   .sign-in_link {
+      @include flexCenter;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+
+      a {
+         font-size: 0.8rem;
+         font-weight: 500;
+         color: #6b6bbd;
+         background-color: #ffff;
+         padding: 0.3rem;
+         border-radius: 1rem;
+         border: 1px solid #6b6bbd;
+         cursor: pointer;
+         text-decoration: none;
+      }
+   }
+}
