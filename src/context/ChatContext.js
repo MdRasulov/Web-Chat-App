@@ -1,11 +1,4 @@
-import {
-   collection,
-   doc,
-   getDocs,
-   onSnapshot,
-   orderBy,
-   query,
-} from 'firebase/firestore';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import { db } from '../firebase';
@@ -16,8 +9,10 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ({ children }) => {
    const { currentUser } = useContext(AuthContext);
    const [chat, setChat] = useState();
+   const [chatLoading, setChatLoading] = useState(true);
    const [chatList, setChatList] = useState();
 
+   //fetching all chats of user
    useEffect(() => {
       const fetchUsers = () => {
          const q = query(collection(db, 'users', currentUser.uid, 'chats'));
@@ -38,7 +33,9 @@ export const ChatContextProvider = ({ children }) => {
    }, [currentUser]);
 
    return (
-      <ChatContext.Provider value={{ chat, setChat, chatList }}>
+      <ChatContext.Provider
+         value={{ chat, setChat, chatList, chatLoading, setChatLoading }}
+      >
          {children}
       </ChatContext.Provider>
    );

@@ -1,11 +1,5 @@
 import React, { useContext } from 'react';
-import {
-   arrayUnion,
-   doc,
-   serverTimestamp,
-   Timestamp,
-   updateDoc,
-} from 'firebase/firestore';
+import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import send from '../assets/send.png';
 import picture from '../assets/picture.png';
 import emoji from '../assets/emoji.png';

@@ -19,7 +19,7 @@ const Search = () => {
    const [users, setUsers] = useState([]);
    const [selectedUser, setSelectedUser] = useState();
    const { currentUser } = useContext(AuthContext);
-   const { setChat, chatList } = useContext(ChatContext);
+   const { setChat, chatList, setChatLoading } = useContext(ChatContext);
 
    // search users from db
    const searchUsers = async e => {
@@ -40,7 +40,7 @@ const Search = () => {
       setUsers(foundUsers);
    };
 
-   // call connectUsers func when chat with user is selected
+   // calls connectUsers func when chat with user is selected
    useEffect(() => {
       if (selectedUser) {
          connectUsers();
@@ -82,6 +82,7 @@ const Search = () => {
             doc(db, 'users', currentUser.uid, 'chats', combinedId)
          ).then(doc => {
             setChat(doc.data());
+            setChatLoading(false);
             lastConversation(doc.data());
          });
       } else {
@@ -89,9 +90,11 @@ const Search = () => {
             doc(db, 'users', currentUser.uid, 'chats', combinedId)
          ).then(doc => {
             setChat(doc.data());
+            setChatLoading(false);
             lastConversation(doc.data());
          });
       }
+      setSelectedUser();
    };
 
    //updates last converversation for fetching lastest chat
@@ -101,8 +104,14 @@ const Search = () => {
             ? currentUser.uid + partner.friendInfo.uid
             : partner.friendInfo.uid + currentUser.uid;
 
+      //updating last conversation partner for current user
       updateDoc(doc(db, 'users', currentUser.uid), {
          'userInfo.lastConversationWith': combinedId,
+      });
+
+      //updating last contact time for conversation partner
+      updateDoc(doc(db, 'users', partner.friendInfo.uid, 'chats', combinedId), {
+         'friendInfo.lastContactAt': Timestamp.now(),
       });
    };
 
@@ -116,7 +125,13 @@ const Search = () => {
          await getDoc(
             doc(db, 'users', currentUser.uid, 'chats', combinedId)
          ).then(doc => {
-            doc.exists() && setChat(doc.data());
+            if (doc.exists()) {
+               setChat(doc.data());
+               setChatLoading(false);
+            } else {
+               setChat();
+               setChatLoading(true);
+            }
          });
       };
 
@@ -148,6 +163,8 @@ const Search = () => {
                         className='found_user'
                         key={user.userInfo.uid}
                         onClick={() => {
+                           setChat();
+                           setChatLoading(true);
                            setSelectedUser(user.userInfo);
                            setUsers();
                         }}

@@ -11,11 +11,11 @@ import { useState } from 'react';
 import { useRef } from 'react';
 
 const Chat = () => {
-   const { chat } = useContext(ChatContext);
+   const { chat, chatLoading } = useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
-   const [messages, setMessages] = useState([]);
+   const [messages, setMessages] = useState();
 
-   //fetching chat
+   //fetching chat messages
    useEffect(() => {
       const fetchMessages = () => {
          const combinedId =
@@ -26,7 +26,9 @@ const Chat = () => {
          const unsub = onSnapshot(
             doc(db, 'users', currentUser.uid, 'chats', combinedId),
             doc => {
-               setMessages(doc.data().messages);
+               if (doc.exists()) {
+                  setMessages(doc.data().messages);
+               }
             }
          );
 
@@ -45,9 +47,14 @@ const Chat = () => {
    }, [messages]);
 
    return (
-      <>
+      <div className='chat'>
+         {chatLoading && (
+            <div className='chat_loading'>
+               <h1>Loading ....</h1>
+            </div>
+         )}
          {chat && (
-            <div className='chat'>
+            <>
                <div className='chat_info'>
                   <div className='user_photo'>
                      <img src={chat.friendInfo.photoURL} alt='' />
@@ -60,21 +67,25 @@ const Chat = () => {
                   </div>
                </div>
                <div className='chat_messages'>
-                  {messages &&
+                  {messages ? (
                      messages.map(message => (
                         <Message
                            message={message}
                            key={message.id}
                            dummy={dummy}
                         />
-                     ))}
+                     ))
+                  ) : (
+                     <h1>No Messages Yet</h1>
+                  )}
                </div>
-               <div className='chat_input'>
-                  <Input />
-               </div>
-            </div>
+            </>
          )}
-      </>
+
+         <div className='chat_input'>
+            <Input />
+         </div>
+      </div>
    );
 };
 
