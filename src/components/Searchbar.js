@@ -108,11 +108,6 @@ const Search = () => {
       updateDoc(doc(db, 'users', currentUser.uid), {
          'userInfo.lastConversationWith': combinedId,
       });
-
-      //updating last contact time for conversation partner
-      updateDoc(doc(db, 'users', partner.friendInfo.uid, 'chats', combinedId), {
-         'friendInfo.lastContactAt': Timestamp.now(),
-      });
    };
 
    //fetch latest chat

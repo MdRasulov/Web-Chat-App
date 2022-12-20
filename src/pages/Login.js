@@ -1,6 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/pages/login.scss';
 
@@ -14,7 +13,9 @@ function Login() {
       const password = e.target[1].value;
 
       signInWithEmailAndPassword(auth, email, password)
-         .then(navigate('/'))
+         .then(() => {
+            navigate('/');
+         })
          .catch(error => {
             const errorCode = error.code;
             const errorMessage = error.message;

@@ -14,6 +14,7 @@ export const ChatContextProvider = ({ children }) => {
 
    //fetching all chats of user
    useEffect(() => {
+      setChatLoading(true);
       const fetchUsers = () => {
          const q = query(collection(db, 'users', currentUser.uid, 'chats'));
          const unsub = onSnapshot(q, snapshot => {
