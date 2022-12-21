@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db } from '../firebase';
+import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
 const Search = () => {
    const { currentUser } = useContext(AuthContext);
@@ -190,12 +191,15 @@ const Search = () => {
                      </div>
                   )}
                   {searchErr && <p>No matches are found</p>}
-                  {}
                </div>
             )}
 
             <div className='chatList_container'>
-               {chatListLoading && <h3>Loading ....</h3>}
+               {chatListLoading && (
+                  <div className='loading_container'>
+                     <LoadingType2 />
+                  </div>
+               )}
                {!chatListLoading &&
                   chatList &&
                   chatList

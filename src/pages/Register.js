@@ -6,12 +6,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import Add from '../assets/add.png';
+import { useState } from 'react';
+import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
 
 function Register() {
    const navigate = useNavigate();
+   const [registerLoading, setRegisterLoading] = useState(false);
 
    const registerUser = async e => {
       e.preventDefault();
+      setRegisterLoading(true);
       const displayName = e.target[0].value;
       const email = e.target[1].value;
       const password = e.target[2].value;
@@ -19,15 +23,12 @@ function Register() {
 
       try {
          //create user
-         const res = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-         );
+         const res = await createUserWithEmailAndPassword(auth, email, password);
 
          //unique name for user avatar
          const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
 
+         //upload avater to storage
          uploadBytesResumable(storageRef, avatar).then(() => {
             getDownloadURL(storageRef).then(async downloadURL => {
                //update user auth profile
@@ -45,11 +46,12 @@ function Register() {
                      photoURL: downloadURL,
                   },
                });
-
+               setRegisterLoading(false);
                navigate('/');
             });
          });
       } catch (error) {
+         setRegisterLoading(false);
          const errorCode = error.code;
          const errorMessage = error.message;
          console.log(`code:${errorCode}, message:${errorMessage}`);
@@ -83,6 +85,11 @@ function Register() {
                </div>
             </div>
          </div>
+         {registerLoading && (
+            <div className='loading_modal'>
+               <LoadingType1 />
+            </div>
+         )}
       </div>
    );
 }

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import send from '../assets/send.png';
 import picture from '../assets/picture.png';
 import emoji from '../assets/emoji.png';
 import { db } from '../firebase';
@@ -48,9 +47,9 @@ function Input() {
       <div className='input-content'>
          <form onSubmit={e => handleInput(e)}>
             <input type='text' placeholder='Add a message...' />
-            <button type='submit'>
+            {/* <button type='submit'>
                <img src={send} alt='' />
-            </button>
+            </button> */}
          </form>
          <div className='additional-actions'>
             <img src={emoji} alt='' />

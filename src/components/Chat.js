@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import more from '../assets/more.png';
 import Message from './Message';
 import Input from './Input';
+import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
 import { useContext } from 'react';
 import { ChatContext } from '../context/ChatContext';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -53,7 +54,7 @@ const Chat = () => {
       <div className='chat'>
          {chatLoading && (
             <div className='chat_loading'>
-               <h1>Loading ....</h1>
+               <LoadingType1 />
             </div>
          )}
          {chat && (
@@ -70,14 +71,14 @@ const Chat = () => {
                   </div>
                </div>
                <div className='chat_messages'>
-                  {loadMessages && <h1>Loading ...</h1>}
+                  {loadMessages && (
+                     <div className='message_loading'>
+                        <LoadingType1 />
+                     </div>
+                  )}
                   {messages ? (
                      messages.map(message => (
-                        <Message
-                           message={message}
-                           key={message.id}
-                           dummy={dummy}
-                        />
+                        <Message message={message} key={message.id} dummy={dummy} />
                      ))
                   ) : (
                      <h1>No Messages Yet</h1>

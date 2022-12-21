@@ -4,7 +4,7 @@
    height: 100vh;
    width: 100%;
    display: flex;
-   color: #ffff;
+   color: #73afe7;
 
    .searchbar {
       display: flex;
@@ -89,11 +89,18 @@
                   }
 
                   .user_last-message {
+                     color: #ffff;
                      max-height: 50%;
                      font-size: 0.9rem;
                      overflow: hidden;
                   }
                }
+            }
+
+            .loading_container {
+               width: 100%;
+               display: flex;
+               justify-content: center;
             }
          }
 
@@ -181,9 +188,18 @@
          height: 80%;
          padding: 2rem;
 
+         .message_loading {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+
          .message {
             display: flex;
             gap: 1.5rem;
+            color: #ffff;
 
             .user-photo {
                width: 3rem;
@@ -368,6 +384,7 @@
          width: 100%;
          height: 50%;
          padding: 1rem;
+         color: #ffff;
 
          .settings_container {
             display: flex;
