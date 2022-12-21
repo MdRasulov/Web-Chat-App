@@ -2,9 +2,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/pages/login.scss';
+import { useState } from 'react';
 
 function Login() {
    const navigate = useNavigate();
+   const [err, setErr] = useState(false);
 
    //Logs in user
    const loginUser = e => {
@@ -14,12 +16,11 @@ function Login() {
 
       signInWithEmailAndPassword(auth, email, password)
          .then(() => {
+            setErr(false);
             navigate('/');
          })
          .catch(error => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`code:${errorCode}, message:${errorMessage}`);
+            setErr(true);
          });
    };
 
@@ -29,8 +30,7 @@ function Login() {
             <div className='greeting-login'>
                <h1>Welcome Back!</h1>
                <div className='greeting-text'>
-                  To keep connected, please, login with your personal
-                  information
+                  To keep connected, please, login with your personal information
                </div>
                <div className='sign-in_link'>
                   Still don't have an account?
@@ -49,6 +49,11 @@ function Login() {
                   <input type='password' placeholder='password' required />
                   <button type='submit'>Sign In</button>
                </form>
+               {err && (
+                  <div className='error_message'>
+                     <p>Invalid email or password</p>
+                  </div>
+               )}
             </div>
          </div>
       </div>

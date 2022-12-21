@@ -57,7 +57,7 @@ const Chat = () => {
                <LoadingType1 />
             </div>
          )}
-         {chat && (
+         {chat ? (
             <>
                <div className='chat_info'>
                   <div className='user_photo'>
@@ -85,6 +85,10 @@ const Chat = () => {
                   )}
                </div>
             </>
+         ) : (
+            <div className='no_chat'>
+               <p>Find a friend and start your first conversation =)</p>
+            </div>
          )}
 
          <div className='chat_input'>

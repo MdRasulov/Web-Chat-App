@@ -12,6 +12,7 @@ import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
 function Register() {
    const navigate = useNavigate();
    const [registerLoading, setRegisterLoading] = useState(false);
+   const [err, setErr] = useState();
 
    const registerUser = async e => {
       e.preventDefault();
@@ -25,36 +26,73 @@ function Register() {
          //create user
          const res = await createUserWithEmailAndPassword(auth, email, password);
 
-         //unique name for user avatar
-         const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
+         let avatarURL;
+         if (avatar) {
+            //path where to upload avatar
+            const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
 
-         //upload avater to storage
-         uploadBytesResumable(storageRef, avatar).then(() => {
-            getDownloadURL(storageRef).then(async downloadURL => {
-               //update user auth profile
-               await updateProfile(res.user, {
-                  displayName,
-                  photoURL: downloadURL,
+            //upload avater to storage and get its URL
+            await uploadBytesResumable(storageRef, avatar).then(async () => {
+               await getDownloadURL(storageRef).then(downloadURL => {
+                  avatarURL = downloadURL;
                });
-
-               //add user to database
-               await setDoc(doc(db, 'users', res.user.uid), {
-                  userInfo: {
-                     uid: res.user.uid,
-                     displayName,
-                     email,
-                     photoURL: downloadURL,
-                  },
-               });
-               setRegisterLoading(false);
-               navigate('/');
             });
+         } else {
+            //getting default image for avatar
+            await getDownloadURL(
+               ref(storage, 'profilePhotos/Default/userDefault.png')
+            ).then(downloadURL => {
+               avatarURL = downloadURL;
+            });
+         }
+
+         await updateProfile(res.user, {
+            displayName,
+            photoURL: avatarURL,
          });
+
+         await setDoc(doc(db, 'users', res.user.uid), {
+            userInfo: {
+               uid: res.user.uid,
+               displayName,
+               email,
+               photoURL: avatarURL,
+            },
+         });
+
+         setRegisterLoading(false);
+         setErr();
+         navigate('/');
+         // //unique name for user avatar
+         // const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
+
+         // //upload avater to storage
+         // uploadBytesResumable(storageRef, avatar).then(() => {
+         //    getDownloadURL(storageRef).then(async downloadURL => {
+         //       //update user auth profile
+         //       await updateProfile(res.user, {
+         //          displayName,
+         //          photoURL: downloadURL,
+         //       });
+
+         //       //add user to database
+         //       await setDoc(doc(db, 'users', res.user.uid), {
+         //          userInfo: {
+         //             uid: res.user.uid,
+         //             displayName,
+         //             email,
+         //             photoURL: downloadURL,
+         //          },
+         //       });
+         //       setRegisterLoading(false);
+         //       setErr();
+         //       navigate('/');
+         //    });
+         // });
       } catch (error) {
          setRegisterLoading(false);
-         const errorCode = error.code;
-         const errorMessage = error.message;
-         console.log(`code:${errorCode}, message:${errorMessage}`);
+         setErr(error.code);
+         console.log(error);
       }
    };
 
@@ -75,6 +113,15 @@ function Register() {
                   </label>
                   <button type='submit'>Sign Up</button>
                </form>
+               <div className='error_message'>
+                  {err === 'auth/email-already-in-use' && (
+                     <p>This email is already used</p>
+                  )}
+                  {err === 'auth/weak-password' && (
+                     <p>Password should be at least 6 characters</p>
+                  )}
+                  {err === 'auth/invalid-email' && <p>Invalid email</p>}
+               </div>
             </div>
             <div className='greeting'>
                <h1>Hello, Friend!</h1>

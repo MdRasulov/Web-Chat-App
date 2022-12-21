@@ -126,16 +126,20 @@ const Search = () => {
          await getDoc(doc(db, 'users', currentUser.uid)).then(doc => {
             combinedId = doc.data().userInfo.lastConversationWith;
          });
-         await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
-            doc => {
-               if (doc.exists()) {
-                  setChat(doc.data());
-                  setChatLoading(false);
-               } else {
-                  setChatLoading(true);
+         if (combinedId) {
+            await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
+               doc => {
+                  if (doc.exists()) {
+                     setChat(doc.data());
+                     setChatLoading(false);
+                  } else {
+                     setChat();
+                  }
                }
-            }
-         );
+            );
+         } else {
+            setChatLoading(false);
+         }
       };
 
       currentUser && fetchLastConversation();
@@ -226,7 +230,7 @@ const Search = () => {
                               <p className='user_last-message'>
                                  {user.friendInfo.lastMessage
                                     ? user.friendInfo.lastMessage
-                                    : ''}
+                                    : 'No any messages'}
                               </p>
                            </div>
                         </div>
