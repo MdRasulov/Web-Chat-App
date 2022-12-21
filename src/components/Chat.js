@@ -14,9 +14,11 @@ const Chat = () => {
    const { chat, chatLoading } = useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
+   const [loadMessages, setLoadMessages] = useState(true);
 
    //fetching chat messages
    useEffect(() => {
+      setLoadMessages(true);
       const fetchMessages = () => {
          const combinedId =
             currentUser.uid > chat.friendInfo.uid
@@ -29,6 +31,7 @@ const Chat = () => {
                if (doc.exists()) {
                   setMessages(doc.data().messages);
                }
+               setLoadMessages(false);
             }
          );
 
@@ -67,6 +70,7 @@ const Chat = () => {
                   </div>
                </div>
                <div className='chat_messages'>
+                  {loadMessages && <h1>Loading ...</h1>}
                   {messages ? (
                      messages.map(message => (
                         <Message

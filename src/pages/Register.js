@@ -17,15 +17,19 @@ function Register() {
       const password = e.target[2].value;
       const avatar = e.target[3].files[0];
 
-      //create user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      try {
+         //create user
+         const res = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+         );
 
-      //unique name for user avatar
-      const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
+         //unique name for user avatar
+         const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
 
-      uploadBytesResumable(storageRef, avatar).then(() => {
-         getDownloadURL(storageRef).then(async downloadURL => {
-            try {
+         uploadBytesResumable(storageRef, avatar).then(() => {
+            getDownloadURL(storageRef).then(async downloadURL => {
                //update user auth profile
                await updateProfile(res.user, {
                   displayName,
@@ -43,13 +47,13 @@ function Register() {
                });
 
                navigate('/');
-            } catch (error) {
-               const errorCode = error.code;
-               const errorMessage = error.message;
-               console.log(`${errorCode}: ${errorMessage}`);
-            }
+            });
          });
-      });
+      } catch (error) {
+         const errorCode = error.code;
+         const errorMessage = error.message;
+         console.log(`code:${errorCode}, message:${errorMessage}`);
+      }
    };
 
    return (

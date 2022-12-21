@@ -10,11 +10,13 @@ export const ChatContextProvider = ({ children }) => {
    const { currentUser } = useContext(AuthContext);
    const [chat, setChat] = useState();
    const [chatLoading, setChatLoading] = useState(true);
+   const [chatListLoading, setChatListLoading] = useState(true);
    const [chatList, setChatList] = useState();
 
    //fetching all chats of user
    useEffect(() => {
       setChatLoading(true);
+      setChatListLoading(true);
       const fetchUsers = () => {
          const q = query(collection(db, 'users', currentUser.uid, 'chats'));
          const unsub = onSnapshot(q, snapshot => {
@@ -23,6 +25,7 @@ export const ChatContextProvider = ({ children }) => {
                chats.push({ ...doc.data() });
             });
             setChatList(chats);
+            setChatListLoading(false);
          });
 
          return () => {
@@ -35,7 +38,14 @@ export const ChatContextProvider = ({ children }) => {
 
    return (
       <ChatContext.Provider
-         value={{ chat, setChat, chatList, chatLoading, setChatLoading }}
+         value={{
+            chat,
+            setChat,
+            chatList,
+            chatLoading,
+            setChatLoading,
+            chatListLoading,
+         }}
       >
          {children}
       </ChatContext.Provider>
