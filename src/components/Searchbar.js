@@ -27,6 +27,8 @@ const Search = () => {
    // search users from db
    const searchUsers = async e => {
       e.preventDefault();
+
+      //cleaning previous value
       setUsers([]);
 
       const q = query(
@@ -217,7 +219,6 @@ const Search = () => {
                            className='user'
                            key={user.friendInfo.uid}
                            onClick={() => {
-                              setSelectedUser();
                               setChat(user);
                               lastConversation(user);
                            }}

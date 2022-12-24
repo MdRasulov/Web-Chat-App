@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import more from '../assets/more.png';
+import search from '../assets/search.png';
 import Message from './Message';
 import Input from './Input';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
@@ -87,7 +88,9 @@ const Chat = () => {
             </>
          ) : (
             <div className='no_chat'>
-               <p>Find a friend and start your first conversation =)</p>
+               <img src={search} alt=''></img>
+               <p className='no_active_chates'>No active chates yet....</p>
+               <p className='find_a_friend'>Find a friend and start conversation =)</p>
             </div>
          )}
 

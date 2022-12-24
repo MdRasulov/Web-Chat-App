@@ -18,12 +18,13 @@ export const ChatContextProvider = ({ children }) => {
       setChatLoading(true);
       setChatListLoading(true);
       const fetchUsers = () => {
-         const q = query(collection(db, 'users', currentUser.uid, 'chats'));
-         const unsub = onSnapshot(q, snapshot => {
+         const qRef = collection(db, 'users', currentUser.uid, 'chats');
+         const unsub = onSnapshot(qRef, snapshot => {
             let chats = [];
             snapshot.docs.forEach(doc => {
                chats.push({ ...doc.data() });
             });
+            console.log(`current user: ${currentUser.displayName}`);
             setChatList(chats);
             setChatListLoading(false);
          });
