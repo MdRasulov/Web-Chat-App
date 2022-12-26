@@ -29,9 +29,9 @@ const Chat = () => {
 
          const unsub = onSnapshot(
             doc(db, 'users', currentUser.uid, 'chats', combinedId),
-            doc => {
-               if (doc.exists()) {
-                  setMessages(doc.data().messages);
+            snapshot => {
+               if (snapshot.exists()) {
+                  setMessages(snapshot.data().messages);
                }
                setLoadMessages(false);
             }

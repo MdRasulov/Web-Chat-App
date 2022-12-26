@@ -9,9 +9,10 @@ import { ChatContext } from '../context/ChatContext';
 
 const Sidebar = () => {
    const { currentUser } = useContext(AuthContext);
-   const { setChat } = useContext(ChatContext);
+   const { setChat, unsubRef } = useContext(ChatContext);
 
    const logoutUser = () => {
+      unsubRef.current();
       setChat();
       signOut(auth);
    };

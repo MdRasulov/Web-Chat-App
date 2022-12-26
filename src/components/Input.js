@@ -45,11 +45,16 @@ function Input() {
 
    return (
       <div className='input-content'>
-         <form onSubmit={e => handleInput(e)}>
+         <form
+            onSubmit={e => {
+               if (e.target[0].value) {
+                  handleInput(e);
+               } else {
+                  e.preventDefault();
+               }
+            }}
+         >
             <input type='text' placeholder='Add a message...' />
-            {/* <button type='submit'>
-               <img src={send} alt='' />
-            </button> */}
          </form>
          <div className='additional-actions'>
             <img src={emoji} alt='' />

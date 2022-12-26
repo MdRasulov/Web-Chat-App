@@ -63,32 +63,6 @@ function Register() {
          setRegisterLoading(false);
          setErr();
          navigate('/');
-         // //unique name for user avatar
-         // const storageRef = ref(storage, `profilePhotos/${res.user.uid}`);
-
-         // //upload avater to storage
-         // uploadBytesResumable(storageRef, avatar).then(() => {
-         //    getDownloadURL(storageRef).then(async downloadURL => {
-         //       //update user auth profile
-         //       await updateProfile(res.user, {
-         //          displayName,
-         //          photoURL: downloadURL,
-         //       });
-
-         //       //add user to database
-         //       await setDoc(doc(db, 'users', res.user.uid), {
-         //          userInfo: {
-         //             uid: res.user.uid,
-         //             displayName,
-         //             email,
-         //             photoURL: downloadURL,
-         //          },
-         //       });
-         //       setRegisterLoading(false);
-         //       setErr();
-         //       navigate('/');
-         //    });
-         // });
       } catch (error) {
          setRegisterLoading(false);
          setErr(error.code);
