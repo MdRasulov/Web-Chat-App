@@ -20,9 +20,16 @@ function Register() {
       const displayName = e.target[0].value;
       const email = e.target[1].value;
       const password = e.target[2].value;
-      const avatar = e.target[3].files[0];
+      const repeatpass = e.target[3].value;
+      const avatar = e.target[4].files[0];
 
       try {
+         if (password !== repeatpass) {
+            const err = new Error('pass dont match');
+            err.code = 'passDontMatch';
+            throw err;
+         }
+
          //create user
          const res = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -66,7 +73,6 @@ function Register() {
       } catch (error) {
          setRegisterLoading(false);
          setErr(error.code);
-         console.log(error);
       }
    };
 
@@ -80,7 +86,13 @@ function Register() {
                   <input type='text' placeholder='Username' required />
                   <input type='mail' placeholder='mail' required />
                   <input type='password' placeholder='password' required />
-                  <input type='file' id='file' style={{ display: 'none' }} />
+                  <input type='password' placeholder='repaet password' required />
+                  <input
+                     type='file'
+                     id='file'
+                     style={{ display: 'none' }}
+                     accept='image/*'
+                  />
                   <label htmlFor='file'>
                      <img src={Add} alt='' />
                      <p>chose your avatar</p>
@@ -95,6 +107,9 @@ function Register() {
                      <p>Password should be at least 6 characters</p>
                   )}
                   {err === 'auth/invalid-email' && <p>Invalid email</p>}
+                  {err === 'passDontMatch' && (
+                     <p>Password fields don't to match each other</p>
+                  )}
                </div>
             </div>
             <div className='greeting'>

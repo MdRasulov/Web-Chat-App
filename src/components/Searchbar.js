@@ -18,7 +18,8 @@ import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
 const Search = () => {
    const { currentUser } = useContext(AuthContext);
-   const { setChat, chatList, setChatLoading, chatListLoading } = useContext(ChatContext);
+   const { setChat, chatList, setChatLoading, chatListLoading, getCombinedId } =
+      useContext(ChatContext);
    const [users, setUsers] = useState();
    const [selectedUser, setSelectedUser] = useState();
    const [dispalySearch, setDisplaySearch] = useState(false);
@@ -60,10 +61,7 @@ const Search = () => {
 
    // creates connection between users
    const connectUsers = async () => {
-      const combinedId =
-         currentUser.uid > selectedUser.uid
-            ? currentUser.uid + selectedUser.uid
-            : selectedUser.uid + currentUser.uid;
+      const combinedId = getCombinedId(selectedUser.uid);
 
       const response = await getDoc(
          doc(db, 'users', currentUser.uid, 'chats', combinedId)
@@ -110,10 +108,7 @@ const Search = () => {
 
    //updates last converversation for fetching lastest chat
    const lastConversation = partner => {
-      const combinedId =
-         currentUser.uid > partner.friendInfo.uid
-            ? currentUser.uid + partner.friendInfo.uid
-            : partner.friendInfo.uid + currentUser.uid;
+      const combinedId = getCombinedId(partner.friendInfo.uid);
 
       //updating last conversation partner for current user
       updateDoc(doc(db, 'users', currentUser.uid), {

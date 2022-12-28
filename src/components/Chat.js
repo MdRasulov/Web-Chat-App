@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import more from '../assets/more.png';
 import search from '../assets/search.png';
+import messagePic from '../assets/messages.png';
 import Message from './Message';
 import Input from './Input';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
@@ -13,7 +14,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 
 const Chat = () => {
-   const { chat, chatLoading } = useContext(ChatContext);
+   const { chat, chatLoading, getCombinedId } = useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
    const [loadMessages, setLoadMessages] = useState(true);
@@ -22,16 +23,19 @@ const Chat = () => {
    useEffect(() => {
       setLoadMessages(true);
       const fetchMessages = () => {
-         const combinedId =
-            currentUser.uid > chat.friendInfo.uid
-               ? currentUser.uid + chat.friendInfo.uid
-               : chat.friendInfo.uid + currentUser.uid;
+         const combinedId = getCombinedId(chat.friendInfo.uid);
 
          const unsub = onSnapshot(
             doc(db, 'users', currentUser.uid, 'chats', combinedId),
             snapshot => {
                if (snapshot.exists()) {
-                  setMessages(snapshot.data().messages);
+                  //empty check
+                  const messages = snapshot.data().messages;
+                  if (messages.length) {
+                     setMessages(snapshot.data().messages);
+                  } else {
+                     setMessages();
+                  }
                }
                setLoadMessages(false);
             }
@@ -79,10 +83,17 @@ const Chat = () => {
                   )}
                   {messages ? (
                      messages.map(message => (
-                        <Message message={message} key={message.id} dummy={dummy} />
+                        <Message
+                           message={message}
+                           key={message.messageId}
+                           dummy={dummy}
+                        />
                      ))
                   ) : (
-                     <h1>No Messages Yet</h1>
+                     <div className='no_messages'>
+                        <img src={messagePic} alt=''></img>
+                        <p>No any messages yet</p>
+                     </div>
                   )}
                </div>
             </>

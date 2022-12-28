@@ -37,6 +37,16 @@ export const ChatContextProvider = ({ children }) => {
       currentUser && fetchUsers();
    }, [currentUser]);
 
+   //func that creates combined Id
+   const getCombinedId = friendId => {
+      const combinedId =
+         currentUser.uid > friendId
+            ? currentUser.uid + friendId
+            : friendId + currentUser.uid;
+
+      return combinedId;
+   };
+
    return (
       <ChatContext.Provider
          value={{
@@ -47,6 +57,7 @@ export const ChatContextProvider = ({ children }) => {
             setChatLoading,
             chatListLoading,
             unsubRef,
+            getCombinedId,
          }}
       >
          {children}
