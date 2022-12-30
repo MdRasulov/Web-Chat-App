@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
-import Add from '../assets/add.png';
 import { useState } from 'react';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
 
@@ -13,6 +12,7 @@ function Register() {
    const navigate = useNavigate();
    const [registerLoading, setRegisterLoading] = useState(false);
    const [err, setErr] = useState();
+   const [avatar, setAvatar] = useState();
 
    const registerUser = async e => {
       e.preventDefault();
@@ -21,7 +21,6 @@ function Register() {
       const email = e.target[1].value;
       const password = e.target[2].value;
       const repeatpass = e.target[3].value;
-      const avatar = e.target[4].files[0];
 
       try {
          if (password !== repeatpass) {
@@ -44,6 +43,7 @@ function Register() {
                   avatarURL = downloadURL;
                });
             });
+            setAvatar();
          } else {
             //getting default image for avatar
             await getDownloadURL(
@@ -92,10 +92,22 @@ function Register() {
                      id='file'
                      style={{ display: 'none' }}
                      accept='image/*'
+                     onChange={e => {
+                        setAvatar(e.target.files[0]);
+                     }}
                   />
                   <label htmlFor='file'>
-                     <img src={Add} alt='' />
-                     <p>chose your avatar</p>
+                     {avatar ? (
+                        <>
+                           <img src={require('../assets/image_selected.png')} alt='' />
+                           <p className='selected'>image selected</p>
+                        </>
+                     ) : (
+                        <>
+                           <img src={require('../assets/image_add.png')} alt='' />
+                           <p>chose your profile image</p>
+                        </>
+                     )}
                   </label>
                   <button type='submit'>Sign Up</button>
                </form>
@@ -108,7 +120,7 @@ function Register() {
                   )}
                   {err === 'auth/invalid-email' && <p>Invalid email</p>}
                   {err === 'passDontMatch' && (
-                     <p>Password fields don't to match each other</p>
+                     <p>Password fields should match to each other</p>
                   )}
                </div>
             </div>

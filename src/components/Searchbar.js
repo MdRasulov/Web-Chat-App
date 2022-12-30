@@ -131,6 +131,7 @@ const Search = () => {
                      setChatLoading(false);
                   } else {
                      setChat();
+                     setChatLoading(false);
                   }
                }
             );

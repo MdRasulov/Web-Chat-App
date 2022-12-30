@@ -1,0 +1,55 @@
+@import './partial';
+
+.modal_container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.45);
+   z-index: 50;
+   color: #ffff;
+
+   .delete-chat_container {
+      @include flexCenter;
+      flex-direction: column;
+
+      width: 25%;
+      height: 25%;
+      background-color: #212229;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      gap: 2rem;
+      padding: 0.5rem;
+
+      p {
+         font-size: 1.5rem;
+         font-weight: 500;
+         text-align: center;
+      }
+
+      .buttons {
+         width: 100%;
+         @include flexCenter;
+         gap: 15%;
+
+         button {
+            width: 20%;
+            height: 2.2rem;
+            font-size: 1.5rem;
+            color: #ffff;
+            background-color: #e5404d;
+            border: none;
+            border-radius: 0.2rem;
+            cursor: pointer;
+         }
+
+         .yes {
+            background-color: #49ed6a;
+         }
+      }
+   }
+}

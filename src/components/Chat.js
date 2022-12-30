@@ -1,46 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import more from '../assets/more.png';
 import search from '../assets/search.png';
 import messagePic from '../assets/messages.png';
 import Message from './Message';
 import Input from './Input';
+import Modal from './Modal';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
-import { useContext } from 'react';
 import { ChatContext } from '../context/ChatContext';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
-import { useState } from 'react';
-import { useRef } from 'react';
 
 const Chat = () => {
-   const { chat, chatLoading, getCombinedId } = useContext(ChatContext);
+   const { chat, chatLoading, getCombinedId, modal, setModal } = useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
-   const [loadMessages, setLoadMessages] = useState(true);
+   const [actionsModal, SetActionsModal] = useState(false);
+   const [galleryState, setGalleryState] = useState(false);
+   const [deleteState, setDeleteState] = useState(false);
 
-   //fetching chat messages
+   //fetching and subscribing to the chat messages
    useEffect(() => {
-      setLoadMessages(true);
       const fetchMessages = () => {
          const combinedId = getCombinedId(chat.friendInfo.uid);
-
          const unsub = onSnapshot(
             doc(db, 'users', currentUser.uid, 'chats', combinedId),
             snapshot => {
-               if (snapshot.exists()) {
-                  //empty check
-                  const messages = snapshot.data().messages;
-                  if (messages.length) {
-                     setMessages(snapshot.data().messages);
+               if (snapshot.data()) {
+                  if (snapshot.data().messages) {
+                     //empty check
+                     const messages = snapshot.data().messages;
+                     if (messages.length) {
+                        setMessages(snapshot.data().messages);
+                     } else {
+                        setMessages();
+                     }
                   } else {
                      setMessages();
                   }
                }
-               setLoadMessages(false);
             }
          );
-
          return () => {
             unsub();
          };
@@ -62,6 +62,14 @@ const Chat = () => {
                <LoadingType1 />
             </div>
          )}
+         {modal && (
+            <Modal
+               galleryState={galleryState}
+               deleteState={deleteState}
+               setGalleryState={setGalleryState}
+               setDeleteState={setDeleteState}
+            />
+         )}
          {chat ? (
             <>
                <div className='chat_info'>
@@ -71,16 +79,48 @@ const Chat = () => {
                   <div className='user_info'>
                      <p className='user_name'>{chat.friendInfo.name}</p>
                   </div>
-                  <div className='action_icons'>
-                     <img src={more} alt='' />
+                  <div className='actions_container'>
+                     <div
+                        className='action_buttons'
+                        onClick={() => {
+                           SetActionsModal(!actionsModal);
+                        }}
+                     >
+                        {actionsModal ? (
+                           <img src={require('../assets/close.png')} alt='' />
+                        ) : (
+                           <img src={more} alt='' />
+                        )}
+                     </div>
+                     {actionsModal && (
+                        <div className='action_pop-up'>
+                           <div className='photo_gallery'>
+                              <p
+                                 onClick={() => {
+                                    SetActionsModal(false);
+                                    setModal(true);
+                                    setGalleryState(true);
+                                 }}
+                              >
+                                 Media
+                              </p>
+                           </div>
+                           <div className='delete_chat'>
+                              <p
+                                 onClick={() => {
+                                    SetActionsModal(false);
+                                    setModal(true);
+                                    setDeleteState(true);
+                                 }}
+                              >
+                                 Delete chat
+                              </p>
+                           </div>
+                        </div>
+                     )}
                   </div>
                </div>
                <div className='chat_messages'>
-                  {loadMessages && (
-                     <div className='message_loading'>
-                        <LoadingType1 />
-                     </div>
-                  )}
                   {messages ? (
                      messages.map(message => (
                         <Message

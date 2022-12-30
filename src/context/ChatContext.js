@@ -12,6 +12,7 @@ export const ChatContextProvider = ({ children }) => {
    const [chatLoading, setChatLoading] = useState(true);
    const [chatListLoading, setChatListLoading] = useState(true);
    const [chatList, setChatList] = useState();
+   const [modal, setModal] = useState(false);
    const unsubRef = useRef();
 
    //fetching all chats of user
@@ -58,6 +59,8 @@ export const ChatContextProvider = ({ children }) => {
             chatListLoading,
             unsubRef,
             getCombinedId,
+            modal,
+            setModal,
          }}
       >
          {children}
