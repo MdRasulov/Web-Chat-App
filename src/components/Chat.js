@@ -16,7 +16,7 @@ const Chat = () => {
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
    const [actionsModal, SetActionsModal] = useState(false);
-   const [galleryState, setGalleryState] = useState(false);
+   const [mediaState, setMediaState] = useState(false);
    const [deleteState, setDeleteState] = useState(false);
 
    //fetching and subscribing to the chat messages
@@ -64,9 +64,9 @@ const Chat = () => {
          )}
          {modal && (
             <Modal
-               galleryState={galleryState}
+               mediaState={mediaState}
                deleteState={deleteState}
-               setGalleryState={setGalleryState}
+               setMediaState={setMediaState}
                setDeleteState={setDeleteState}
             />
          )}
@@ -99,7 +99,7 @@ const Chat = () => {
                                  onClick={() => {
                                     SetActionsModal(false);
                                     setModal(true);
-                                    setGalleryState(true);
+                                    setMediaState(true);
                                  }}
                               >
                                  Media

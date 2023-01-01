@@ -9,7 +9,7 @@ import { ChatContext } from '../context/ChatContext';
 
 const Sidebar = () => {
    const { currentUser } = useContext(AuthContext);
-   const { setChat, unsubRef } = useContext(ChatContext);
+   const { setChat, unsubRef, setModal, setSettingState } = useContext(ChatContext);
 
    const logoutUser = () => {
       unsubRef.current();
@@ -19,7 +19,7 @@ const Sidebar = () => {
 
    return (
       <div className='sidebar'>
-         {currentUser.photoURL && (
+         {currentUser && (
             <div className='user_info'>
                <img src={currentUser.photoURL} alt='' />
                <p className='user_name'>{currentUser.displayName}</p>
@@ -28,7 +28,13 @@ const Sidebar = () => {
          )}
 
          <div className='settings'>
-            <div className='settings_container'>
+            <div
+               className='settings_container'
+               onClick={() => {
+                  setModal(true);
+                  setSettingState(true);
+               }}
+            >
                <img src={settings} alt='' />
                <p>Settings</p>
             </div>

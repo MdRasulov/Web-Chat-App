@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -8,7 +8,7 @@ import { ChatContextProvider } from './context/ChatContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-   <React.StrictMode>
+   <StrictMode>
       <BrowserRouter>
          <AuthContextProvider>
             <ChatContextProvider>
@@ -16,5 +16,5 @@ root.render(
             </ChatContextProvider>
          </AuthContextProvider>
       </BrowserRouter>
-   </React.StrictMode>
+   </StrictMode>
 );

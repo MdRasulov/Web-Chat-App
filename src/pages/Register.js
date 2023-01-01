@@ -86,7 +86,7 @@ function Register() {
                   <input type='text' placeholder='Username' required />
                   <input type='mail' placeholder='mail' required />
                   <input type='password' placeholder='password' required />
-                  <input type='password' placeholder='repaet password' required />
+                  <input type='password' placeholder='repeat password' required />
                   <input
                      type='file'
                      id='file'

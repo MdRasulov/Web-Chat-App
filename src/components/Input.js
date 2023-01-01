@@ -57,6 +57,7 @@ function Input() {
                //set a new message
                updateDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId), {
                   'friendInfo.lastContactAt': Timestamp.now(),
+                  'friendInfo.lastMessage': 'image',
                   messages: arrayUnion({
                      imageURL: downloadURL,
                      senderId: currentUser.uid,
@@ -66,6 +67,7 @@ function Input() {
                });
                updateDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId), {
                   'friendInfo.lastContactAt': Timestamp.now(),
+                  'friendInfo.lastMessage': 'image',
                   messages: arrayUnion({
                      imageURL: downloadURL,
                      senderId: currentUser.uid,
