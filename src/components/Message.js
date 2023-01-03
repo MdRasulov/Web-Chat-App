@@ -14,7 +14,7 @@ const Message = ({ message, dummy }) => {
 
    //deletes message
    const deleteMessage = message => {
-      const combinedId = getCombinedId(chat.friendInfo.uid);
+      const combinedId = getCombinedId(chat.uid);
 
       const textMessage = {
          date: message.date,
@@ -35,7 +35,7 @@ const Message = ({ message, dummy }) => {
             messages: arrayRemove(textMessage),
          });
 
-         updateDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId), {
+         updateDoc(doc(db, 'users', chat.uid, 'chats', combinedId), {
             messages: arrayRemove(textMessage),
          });
       }
@@ -51,7 +51,7 @@ const Message = ({ message, dummy }) => {
             messages: arrayRemove(imageMessage),
          });
 
-         updateDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId), {
+         updateDoc(doc(db, 'users', chat.uid, 'chats', combinedId), {
             messages: arrayRemove(imageMessage),
          });
 
@@ -69,7 +69,7 @@ const Message = ({ message, dummy }) => {
                src={
                   message.senderId === currentUser.uid
                      ? currentUser.photoURL
-                     : chat.friendInfo.photoURL
+                     : chat.photoURL
                }
                alt=''
             />

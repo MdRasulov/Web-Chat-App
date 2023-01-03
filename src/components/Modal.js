@@ -13,7 +13,7 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
       useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [imageURLs, setImageURLs] = useState([]);
-   const combinedId = getCombinedId(chat.friendInfo.uid);
+   const combinedId = getCombinedId(chat.uid);
    const storageRef = ref(storage, `chatGallery/${combinedId}/`);
 
    //! developing stage
@@ -35,7 +35,7 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
    //funct that deletes the chat and all data connected to chat
    const deleteChat = async () => {
       await deleteDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId));
-      await deleteDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId));
+      await deleteDoc(doc(db, 'users', chat.uid, 'chats', combinedId));
       await list(storageRef).then(res => {
          res.items.map(item => deleteObject(ref(storage, item.fullPath)));
       });

@@ -13,7 +13,7 @@ function Input() {
 
    const handleInput = async e => {
       e.preventDefault();
-      const combinedId = getCombinedId(chat.friendInfo.uid);
+      const combinedId = getCombinedId(chat.uid);
 
       //sends text message
       if (e.target[0].value) {
@@ -32,7 +32,7 @@ function Input() {
                messageId,
             }),
          });
-         updateDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId), {
+         updateDoc(doc(db, 'users', chat.uid, 'chats', combinedId), {
             'friendInfo.lastMessage': text,
             'friendInfo.lastContactAt': Timestamp.now(),
             messages: arrayUnion({
@@ -65,7 +65,7 @@ function Input() {
                      messageId: imageId,
                   }),
                });
-               updateDoc(doc(db, 'users', chat.friendInfo.uid, 'chats', combinedId), {
+               updateDoc(doc(db, 'users', chat.uid, 'chats', combinedId), {
                   'friendInfo.lastContactAt': Timestamp.now(),
                   'friendInfo.lastMessage': 'image',
                   messages: arrayUnion({

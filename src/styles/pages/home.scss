@@ -139,6 +139,7 @@
       width: 50%;
       height: 100%;
       background-color: $secondary;
+      position: relative;
 
       .chat_loading,
       .no_chat,
@@ -149,6 +150,15 @@
          display: flex;
          align-items: center;
          justify-content: center;
+      }
+
+      .chat_loading {
+         height: 100%;
+         position: absolute;
+         top: 0;
+         left: 0;
+         z-index: 10;
+         background-color: rgba(0, 0, 0, 0.45);
       }
 
       .no_chat,

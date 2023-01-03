@@ -89,7 +89,7 @@ const Search = () => {
          // getting chat doc
          await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
             doc => {
-               setChat(doc.data());
+               setChat(doc.data().friendInfo);
                setChatLoading(false);
                lastConversation(doc.data());
             }
@@ -97,7 +97,7 @@ const Search = () => {
       } else {
          await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
             doc => {
-               setChat(doc.data());
+               setChat(doc.data().friendInfo);
                setChatLoading(false);
                lastConversation(doc.data());
             }
@@ -108,12 +108,34 @@ const Search = () => {
 
    //updates last converversation for fetching lastest chat
    const lastConversation = partner => {
-      const combinedId = getCombinedId(partner.friendInfo.uid);
+      const combinedId = getCombinedId(partner.uid);
 
       //updating last conversation partner for current user
       updateDoc(doc(db, 'users', currentUser.uid), {
          'userInfo.lastConversationWith': combinedId,
       });
+   };
+
+   //update friend-info with latest data and set chat with it
+   const updateFriendInfo = async uid => {
+      const combinedId = getCombinedId(uid);
+      const docRef = doc(db, 'users', currentUser.uid, 'chats', combinedId);
+
+      //update friend-info
+      await getDoc(doc(db, 'users', uid)).then(async res => {
+         const friendInfo = res.data().userInfo;
+         await updateDoc(docRef, {
+            'friendInfo.photoURL': friendInfo.photoURL,
+            'friendInfo.name': friendInfo.displayName,
+         });
+      });
+
+      //set chat with friend-info
+      await getDoc(docRef).then(doc => {
+         setChat(doc.data().friendInfo);
+      });
+
+      setChatLoading(false);
    };
 
    //fetch latest chat
@@ -127,7 +149,7 @@ const Search = () => {
             await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
                doc => {
                   if (doc.exists()) {
-                     setChat(doc.data());
+                     setChat(doc.data().friendInfo);
                      setChatLoading(false);
                   } else {
                      setChat();
@@ -215,8 +237,9 @@ const Search = () => {
                            className='user'
                            key={user.friendInfo.uid}
                            onClick={() => {
-                              setChat(user);
-                              lastConversation(user);
+                              setChatLoading(true);
+                              updateFriendInfo(user.friendInfo.uid);
+                              lastConversation(user.friendInfo);
                            }}
                         >
                            <div className='user_photo'>

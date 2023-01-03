@@ -25,22 +25,25 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
    const [changeMail, setChangeMail] = useState(false);
    const [changePass, setChangePass] = useState(false);
    const [loading, setLoading] = useState(false);
+   const [success, setSuccess] = useState(false);
    const [err, setErr] = useState();
 
    const closeEveryModal = () => {
       setModal(false);
       setSettingState(false);
-      setLoading(false);
+      setSuccess(false);
    };
 
    const closeEveryState = () => {
       setLoading(false);
-      setChangeName(false);
-      setChangeMail(false);
-      setChangePass(false);
-      setChangeState(false);
+      setSuccess(true);
+
+      setTimeout(() => {
+         closeEveryModal();
+      }, 1300);
    };
 
+   //changes userPhoto
    const changePhoto = async () => {
       try {
          const storageRef = ref(storage, `profilePhotos/${currentUser.uid}`);
@@ -60,13 +63,14 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                });
             });
             setNewPhoto();
-            closeEveryModal();
+            closeEveryState();
          });
       } catch (error) {
          setErr(error.code);
       }
    };
 
+   //changes username
    const changeUsername = async e => {
       try {
          //updating user photo
@@ -85,6 +89,7 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
       }
    };
 
+   //changes email
    const changeEmail = async e => {
       const credential = EmailAuthProvider.credential(
          currentUser.email,
@@ -109,6 +114,7 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
       }
    };
 
+   //changes pass
    const changePassword = async e => {
       const credential = EmailAuthProvider.credential(
          currentUser.email,
@@ -228,6 +234,14 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
          {loading && (
             <div className='loading_container'>
                <LoadingType2 />
+            </div>
+         )}
+         {success && (
+            <div className='success_container'>
+               <div className='success'>
+                  <p>Success</p>
+                  <img src={require('../assets/success.png')} alt='' />
+               </div>
             </div>
          )}
          {changeState && (

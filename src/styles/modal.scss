@@ -151,8 +151,8 @@
                font-size: 1rem;
                font-weight: 600;
                text-decoration: underline;
-               margin-left: 1rem;
                cursor: pointer;
+               margin-left: auto;
             }
          }
 
@@ -201,11 +201,19 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
+            width: 25vw;
+
+            .userEmail,
+            .userName,
+            .userPass {
+               width: 100%;
+            }
          }
       }
 
       .loading_container,
-      .change_container {
+      .change_container,
+      .success_container {
          width: 100%;
          height: 100%;
          position: absolute;
@@ -217,6 +225,26 @@
          background-color: rgba(0, 0, 0, 0.45);
          z-index: 25;
          border-radius: 1rem;
+      }
+
+      .success_container {
+         .success {
+            @include flexCenter;
+            gap: 1rem;
+            width: 60%;
+            height: 40%;
+            border-radius: 2rem;
+            background-color: #282932;
+
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #49ed6a;
+
+            img {
+               width: 7rem;
+               height: 7rem;
+            }
+         }
       }
 
       .change_container {

@@ -22,7 +22,7 @@ const Chat = () => {
    //fetching and subscribing to the chat messages
    useEffect(() => {
       const fetchMessages = () => {
-         const combinedId = getCombinedId(chat.friendInfo.uid);
+         const combinedId = getCombinedId(chat.uid);
          const unsub = onSnapshot(
             doc(db, 'users', currentUser.uid, 'chats', combinedId),
             snapshot => {
@@ -74,10 +74,10 @@ const Chat = () => {
             <>
                <div className='chat_info'>
                   <div className='user_photo'>
-                     <img src={chat.friendInfo.photoURL} alt='' />
+                     <img src={chat.photoURL} alt='' />
                   </div>
                   <div className='user_info'>
-                     <p className='user_name'>{chat.friendInfo.name}</p>
+                     <p className='user_name'>{chat.name}</p>
                   </div>
                   <div className='actions_container'>
                      <div
