@@ -1,5 +1,6 @@
 import { deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, list, ref } from 'firebase/storage';
+import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -12,36 +13,59 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
    const { chat, setModal, getCombinedId, setChat, settingState, setSettingState } =
       useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
-   const [imageURLs, setImageURLs] = useState([]);
+   const [imageURLs, setImageURLs] = useState();
+   const [loading, setLoading] = useState(false);
+
    const combinedId = getCombinedId(chat.uid);
    const storageRef = ref(storage, `chatGallery/${combinedId}/`);
 
-   //! developing stage
-   //fetching all images of the chat from cloud storage
-   // useEffect(() => {
-   //    const fetchMedia = async () => {
-   //       await list(storageRef).then(res => {
-   //          res.items.forEach(element => {
-   //             getDownloadURL(ref(storage, element.fullPath)).then(url => {
-   //                setImageURLs([...imageURLs, url]);
-   //             });
-   //          });
-   //       });
-   //    };
+   // fetching all images of the chat from cloud storage
+   useEffect(() => {
+      const fetchMedia = async () => {
+         const arr = [];
+         setLoading(true);
+         try {
+            const itemList = await list(storageRef);
+            if (itemList.items.length) {
+               for (const item of itemList.items) {
+                  const url = await getDownloadURL(ref(storage, item.fullPath));
+                  arr.push(url);
+               }
 
-   //    mediaState && fetchMedia();
-   // }, [mediaState]);
+               setImageURLs(arr);
+            } else {
+               setImageURLs();
+            }
+
+            setLoading(false);
+         } catch (error) {
+            setLoading(false);
+            console.log(error);
+         }
+      };
+
+      mediaState && fetchMedia();
+   }, [mediaState]);
 
    //funct that deletes the chat and all data connected to chat
    const deleteChat = async () => {
+      //delete chat for user and connected friend
       await deleteDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId));
       await deleteDoc(doc(db, 'users', chat.uid, 'chats', combinedId));
+
+      //delete all chat's media files from cloud storage
       await list(storageRef).then(res => {
          res.items.map(item => deleteObject(ref(storage, item.fullPath)));
       });
+
       setChat();
       setModal(false);
       setDeleteState(false);
+   };
+
+   //open image in new tab
+   const openInNewTab = url => {
+      window.open(url, '_blank', 'noreferrer');
    };
 
    return (
@@ -81,7 +105,23 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
                >
                   <img src={require('../assets/close.png')} alt='' />
                </button>
-               <div className='images_container'>This option is not avaible yet</div>
+               <div className='images_container'>
+                  {imageURLs &&
+                     imageURLs.map(url => (
+                        <div
+                           className='image'
+                           key={url}
+                           onClick={() => {
+                              openInNewTab(url);
+                           }}
+                        >
+                           <img src={url} alt='' loading='lazy' />
+                        </div>
+                     ))}
+                  {!imageURLs && !loading && (
+                     <div className='no_images'>no images yet</div>
+                  )}
+               </div>
             </div>
          )}
          {settingState && (
@@ -90,6 +130,11 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
                setSettingState={setSettingState}
                combinedId={combinedId}
             />
+         )}
+         {loading && (
+            <div className='loading_container'>
+               <LoadingType2 />
+            </div>
          )}
       </div>
    );

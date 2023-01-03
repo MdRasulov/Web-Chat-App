@@ -4,6 +4,7 @@
    display: flex;
    justify-content: center;
    align-items: center;
+   position: relative;
    width: 100%;
    height: 100%;
    position: fixed;
@@ -80,19 +81,20 @@
       }
 
       .images_container {
-         display: flex;
-         flex-wrap: wrap;
-         justify-content: space-evenly;
+         padding-top: 1rem;
+         display: grid;
+         grid-template-columns: 1fr 1fr 1fr;
+         grid-auto-rows: 65%;
+         gap: 1rem;
          width: 100%;
          height: 100%;
          overflow: scroll;
          overflow-x: hidden;
+         border-top: 1px solid #454558;
+         border-bottom: 1px solid #454558;
 
          .image {
-            width: 45%;
-            height: 65%;
-            margin-bottom: 1rem;
-
+            cursor: pointer;
             img {
                width: 100%;
                height: 100%;
@@ -116,6 +118,23 @@
          }
          // ---------------------------------------------
       }
+   }
+
+   .media_container {
+      padding-top: 3rem;
+   }
+
+   .loading_container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.45);
+      z-index: 25;
    }
 
    // -----------------------------------settings--------------------------------------
