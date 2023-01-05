@@ -7,6 +7,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
+import { motion } from 'framer-motion';
 
 function Register() {
    const navigate = useNavigate();
@@ -83,7 +84,7 @@ function Register() {
                <span className='logo'>Web Chat</span>
                <span className='title'>Registration</span>
                <form onSubmit={e => registerUser(e)}>
-                  <input type='text' placeholder='Username' required />
+                  <input type='text' placeholder='Username' required maxLength={20} />
                   <input type='mail' placeholder='mail' required />
                   <input type='password' placeholder='password' required />
                   <input type='password' placeholder='repeat password' required />
@@ -96,7 +97,7 @@ function Register() {
                         setAvatar(e.target.files[0]);
                      }}
                   />
-                  <label htmlFor='file'>
+                  <motion.label whileTap={{ scale: 0.9 }} htmlFor='file'>
                      {avatar ? (
                         <>
                            <img src={require('../assets/image_selected.png')} alt='' />
@@ -108,8 +109,14 @@ function Register() {
                            <p>chose your profile image</p>
                         </>
                      )}
-                  </label>
-                  <button type='submit'>Sign Up</button>
+                  </motion.label>
+                  <motion.button
+                     whileHover={{ backgroundColor: '#73afe7', color: '#ffff' }}
+                     whileTap={{ scale: 0.9 }}
+                     type='submit'
+                  >
+                     Sign Up
+                  </motion.button>
                </form>
                <div className='error_message'>
                   {err === 'auth/email-already-in-use' && (
@@ -129,7 +136,9 @@ function Register() {
                <p>Fill the form to start chatting</p>
                <div className='sign-in_link'>
                   Already have an account?
-                  <Link to={'/login'}>Sing In</Link>
+                  <motion.div whileHover={{ scale: 1.1 }} className='link'>
+                     <Link to={'/login'}>Sing In</Link>
+                  </motion.div>
                </div>
             </div>
          </div>

@@ -13,6 +13,7 @@ import {
    uploadBytesResumable,
 } from 'firebase/storage';
 import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { db, storage } from '../firebase';
@@ -29,9 +30,9 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
    const [err, setErr] = useState();
 
    const closeEveryModal = () => {
-      setModal(false);
       setSettingState(false);
       setSuccess(false);
+      setModal(false);
    };
 
    const closeEveryState = () => {
@@ -141,14 +142,15 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
 
    return (
       <div className='setting_container'>
-         <button
+         <motion.button
+            whileHover={{ scale: 1.2 }}
             className='exit'
             onClick={() => {
                closeEveryModal();
             }}
          >
             <img src={require('../assets/close.png')} alt='' />
-         </button>
+         </motion.button>
          <div className='user'>
             <div className='userPhoto secondary'>
                {newPhoto ? (
@@ -166,19 +168,26 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                         setNewPhoto(e.target.files[0]);
                      }}
                   />
-                  <label htmlFor='file'>
+                  <motion.label whileTap={{ scale: 0.9 }} htmlFor='file'>
                      {newPhoto ? (
                         <>
                            <p className='selected'>Image selected !</p>
                         </>
                      ) : (
                         <>
-                           <p className='not-selected'>Select new image</p>
+                           <motion.p
+                              whileHover={{ color: '#73afe7' }}
+                              className='not-selected'
+                           >
+                              Select new image
+                           </motion.p>
                         </>
                      )}
-                  </label>
+                  </motion.label>
                   {newPhoto && (
-                     <p
+                     <motion.p
+                        whileTap={{ scale: 0.9 }}
+                        whileHover={{ color: '#73afe7' }}
                         className='change'
                         onClick={() => {
                            changePhoto();
@@ -186,7 +195,7 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                         }}
                      >
                         Click here to change your profile photo
-                     </p>
+                     </motion.p>
                   )}
                </div>
             </div>
@@ -194,7 +203,9 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                <div className='userName'>
                   <p>UserName: </p>
                   <span>{currentUser.displayName}</span>
-                  <p
+                  <motion.p
+                     whileTap={{ scale: 0.9 }}
+                     whileHover={{ color: '#73afe7' }}
                      className='change'
                      onClick={() => {
                         setChangeState(true);
@@ -202,12 +213,14 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                      }}
                   >
                      change
-                  </p>
+                  </motion.p>
                </div>
                <div className='userEmail'>
                   <p>Email: </p>
                   {currentUser.email}
-                  <p
+                  <motion.p
+                     whileTap={{ scale: 0.9 }}
+                     whileHover={{ color: '#73afe7' }}
                      className='change'
                      onClick={() => {
                         setChangeState(true);
@@ -215,11 +228,13 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                      }}
                   >
                      change
-                  </p>
+                  </motion.p>
                </div>
                <div className='userPass'>
                   <p>Password: </p> ******....
-                  <p
+                  <motion.p
+                     whileTap={{ scale: 0.9 }}
+                     whileHover={{ color: '#73afe7' }}
                      className='change'
                      onClick={() => {
                         setChangeState(true);
@@ -227,120 +242,142 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                      }}
                   >
                      change
-                  </p>
+                  </motion.p>
                </div>
             </div>
          </div>
+         <AnimatePresence>
+            {changeState && (
+               <motion.div exit={{ opacity: 0 }} className='change_container'>
+                  <button
+                     className='back'
+                     onClick={() => {
+                        setChangeName(false);
+                        setChangeMail(false);
+                        setChangePass(false);
+                        setChangeState(false);
+                        setErr();
+                     }}
+                  >
+                     <img src={require('../assets/back.png')} alt='' />
+                  </button>
+                  {changeName && (
+                     <motion.div
+                        initial={{ opacity: 0, x: '20vw' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className='change_name'
+                     >
+                        <p>Enter your new Name</p>
+                        <form
+                           onSubmit={e => {
+                              e.preventDefault();
+                              if (e.target) {
+                                 setLoading(true);
+                                 changeUsername(e);
+                              }
+                           }}
+                        >
+                           <input
+                              type='text'
+                              placeholder={currentUser.displayName}
+                              required
+                           />
+                           <button type='submit'>Change</button>
+                        </form>
+                     </motion.div>
+                  )}
+                  {changeMail && (
+                     <motion.div
+                        initial={{ opacity: 0, x: '20vw' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className='change_email'
+                     >
+                        <p>Enter your new Mail</p>
+                        <form
+                           onSubmit={e => {
+                              e.preventDefault();
+                              if (e.target) {
+                                 setLoading(true);
+                                 changeEmail(e);
+                              }
+                           }}
+                        >
+                           <input type='mail' placeholder='new mail' required />
+                           <input type='password' placeholder='enter password' required />
+                           <button type='submit'>Change</button>
+                        </form>
+                     </motion.div>
+                  )}
+                  {changePass && (
+                     <motion.div
+                        initial={{ opacity: 0, x: '20vw' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className='change_pass'
+                     >
+                        <p>Enter your new Password</p>
+                        <form
+                           onSubmit={e => {
+                              e.preventDefault();
+                              if (e.target) {
+                                 setLoading(true);
+                                 changePassword(e);
+                              }
+                           }}
+                        >
+                           <input
+                              type='password'
+                              placeholder='enter current password'
+                              required
+                           />
+                           <input
+                              type='password'
+                              placeholder='enter new password'
+                              required
+                           />
+                           <input
+                              type='password'
+                              placeholder='repeat password'
+                              required
+                           />
+                           <button type='submit'>Change</button>
+                        </form>
+                     </motion.div>
+                  )}
+                  {err && (
+                     <div className='error_message'>
+                        {err === 'auth/email-already-in-use' && (
+                           <p>This email is already used</p>
+                        )}
+                        {err === 'auth/weak-password' && (
+                           <p>Password should be at least 6 characters</p>
+                        )}
+                        {err === 'auth/invalid-email' && <p>Invalid email</p>}
+                        {err === 'passDontMatch' && (
+                           <p>Password fields should match to each other</p>
+                        )}
+                        {err === 'auth/wrong-password' && <p>Wrong password</p>}
+                     </div>
+                  )}
+                  {err && console.log(err)}
+               </motion.div>
+            )}
+         </AnimatePresence>
          {loading && (
             <div className='loading_container'>
                <LoadingType2 />
             </div>
          )}
          {success && (
-            <div className='success_container'>
+            <motion.div
+               initial={{ opacity: 0, scale: 0.5 }}
+               animate={{ opacity: 1, scale: 1 }}
+               className='success_container'
+            >
                <div className='success'>
                   <p>Success</p>
                   <img src={require('../assets/success.png')} alt='' />
                </div>
-            </div>
-         )}
-         {changeState && (
-            <div className='change_container'>
-               <button
-                  className='back'
-                  onClick={() => {
-                     setChangeState(false);
-                     setChangeName(false);
-                     setChangeMail(false);
-                     setChangePass(false);
-                     setErr();
-                  }}
-               >
-                  <img src={require('../assets/back.png')} alt='' />
-               </button>
-               {changeName && (
-                  <div className='change_name'>
-                     <p>Enter your new Name</p>
-                     <form
-                        onSubmit={e => {
-                           e.preventDefault();
-                           if (e.target) {
-                              setLoading(true);
-                              changeUsername(e);
-                           }
-                        }}
-                     >
-                        <input
-                           type='text'
-                           placeholder={currentUser.displayName}
-                           required
-                        />
-                        <button type='submit'>Change</button>
-                     </form>
-                  </div>
-               )}
-               {changeMail && (
-                  <div className='change_email'>
-                     <p>Enter your new Mail</p>
-                     <form
-                        onSubmit={e => {
-                           e.preventDefault();
-                           if (e.target) {
-                              setLoading(true);
-                              changeEmail(e);
-                           }
-                        }}
-                     >
-                        <input type='mail' placeholder='new mail' required />
-                        <input type='password' placeholder='enter password' required />
-                        <button type='submit'>Change</button>
-                     </form>
-                  </div>
-               )}
-               {changePass && (
-                  <div className='change_pass'>
-                     <p>Enter your new Password</p>
-                     <form
-                        onSubmit={e => {
-                           e.preventDefault();
-                           if (e.target) {
-                              setLoading(true);
-                              changePassword(e);
-                           }
-                        }}
-                     >
-                        <input
-                           type='password'
-                           placeholder='enter current password'
-                           required
-                        />
-                        <input
-                           type='password'
-                           placeholder='enter new password'
-                           required
-                        />
-                        <input type='password' placeholder='repeat password' required />
-                        <button type='submit'>Change</button>
-                     </form>
-                  </div>
-               )}
-               {err && (
-                  <div className='error_message'>
-                     {err === 'auth/email-already-in-use' && (
-                        <p>This email is already used</p>
-                     )}
-                     {err === 'auth/weak-password' && (
-                        <p>Password should be at least 6 characters</p>
-                     )}
-                     {err === 'auth/invalid-email' && <p>Invalid email</p>}
-                     {err === 'passDontMatch' && (
-                        <p>Password fields should match to each other</p>
-                     )}
-                     {err === 'auth/wrong-password' && <p>Wrong password</p>}
-                  </div>
-               )}
-               {err && console.log(err)}
-            </div>
+            </motion.div>
          )}
       </div>
    );

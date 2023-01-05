@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db, storage } from '../firebase';
+import { AnimatePresence, motion } from 'framer-motion';
 import '../styles/modal.scss';
 import Settings from './Settings';
 
@@ -71,31 +72,35 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
    return (
       <div className='modal_container'>
          {deleteState && (
-            <div className='delete-chat_container'>
+            <motion.div className='delete-chat_container'>
                <p>Delete chat with this user?</p>
                <div className='buttons'>
-                  <button
+                  <motion.button
+                     whileTap={{ scale: 0.8 }}
                      className='yes'
                      onClick={() => {
                         deleteChat();
                      }}
                   >
                      Yes
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                     whileTap={{ scale: 0.8 }}
                      onClick={() => {
-                        setModal(false);
                         setDeleteState(false);
+                        setModal(false);
                      }}
                   >
                      No
-                  </button>
+                  </motion.button>
                </div>
-            </div>
+            </motion.div>
          )}
          {mediaState && (
             <div className='media_container'>
-               <button
+               <motion.button
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
                   className='exit'
                   onClick={() => {
                      setImageURLs([]);
@@ -104,11 +109,12 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
                   }}
                >
                   <img src={require('../assets/close.png')} alt='' />
-               </button>
+               </motion.button>
                <div className='images_container'>
                   {imageURLs &&
                      imageURLs.map(url => (
-                        <div
+                        <motion.div
+                           whileHover={{ opacity: 0.7 }}
                            className='image'
                            key={url}
                            onClick={() => {
@@ -116,10 +122,13 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
                            }}
                         >
                            <img src={url} alt='' loading='lazy' />
-                        </div>
+                        </motion.div>
                      ))}
                   {!imageURLs && !loading && (
-                     <div className='no_images'>no images yet</div>
+                     <div className='no_image'>
+                        <img src={require('../assets/no_images.png')} alt='' />
+                        <p>There is no any shared images in this chat</p>
+                     </div>
                   )}
                </div>
             </div>

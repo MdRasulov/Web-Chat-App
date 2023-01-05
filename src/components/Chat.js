@@ -5,6 +5,7 @@ import messagePic from '../assets/messages.png';
 import Message from './Message';
 import Input from './Input';
 import Modal from './Modal';
+import { AnimatePresence, motion } from 'framer-motion';
 import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
 import { ChatContext } from '../context/ChatContext';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -80,7 +81,9 @@ const Chat = () => {
                      <p className='user_name'>{chat.name}</p>
                   </div>
                   <div className='actions_container'>
-                     <div
+                     <motion.div
+                        whileTap={{ scale: 0.8 }}
+                        whileHover={{ scale: 1.2 }}
                         className='action_buttons'
                         onClick={() => {
                            SetActionsModal(!actionsModal);
@@ -91,33 +94,41 @@ const Chat = () => {
                         ) : (
                            <img src={more} alt='' />
                         )}
-                     </div>
-                     {actionsModal && (
-                        <div className='action_pop-up'>
-                           <div className='photo_gallery'>
-                              <p
+                     </motion.div>
+                     <AnimatePresence>
+                        {actionsModal && (
+                           <motion.div
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className='action_pop-up'
+                           >
+                              <motion.div
+                                 whileHover={{ backgroundColor: '#606f85' }}
+                                 className='photo_gallery'
                                  onClick={() => {
                                     SetActionsModal(false);
                                     setModal(true);
                                     setMediaState(true);
                                  }}
                               >
-                                 Media
-                              </p>
-                           </div>
-                           <div className='delete_chat'>
-                              <p
+                                 <p>Media</p>
+                              </motion.div>
+                              <motion.div
+                                 whileHover={{ backgroundColor: '#606f85' }}
+                                 className='delete_chat'
                                  onClick={() => {
                                     SetActionsModal(false);
                                     setModal(true);
                                     setDeleteState(true);
                                  }}
                               >
-                                 Delete chat
-                              </p>
-                           </div>
-                        </div>
-                     )}
+                                 <p>Delete chat</p>
+                              </motion.div>
+                           </motion.div>
+                        )}
+                     </AnimatePresence>
                   </div>
                </div>
                <div className='chat_messages'>

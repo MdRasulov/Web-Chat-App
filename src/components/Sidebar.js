@@ -3,6 +3,7 @@ import logout from '../assets/logout.png';
 import settings from '../assets/settings.png';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import { motion } from 'framer-motion';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
@@ -28,7 +29,10 @@ const Sidebar = () => {
          )}
 
          <div className='settings'>
-            <div
+            <motion.div
+               transition={{ duration: 0.2 }}
+               whileTap={{ scale: 0.8 }}
+               whileHover={{ scale: 1.1 }}
                className='settings_container'
                onClick={() => {
                   setModal(true);
@@ -37,13 +41,18 @@ const Sidebar = () => {
             >
                <img src={settings} alt='' />
                <p>Settings</p>
-            </div>
+            </motion.div>
          </div>
          <div className='logout'>
-            <div className='logout_container' onClick={logoutUser}>
+            <motion.div
+               whileTap={{ scale: 0.8 }}
+               whileHover={{ scale: 1.1 }}
+               className='logout_container'
+               onClick={logoutUser}
+            >
                <img src={logout} alt='' />
                <p>Logout</p>
-            </div>
+            </motion.div>
          </div>
       </div>
    );

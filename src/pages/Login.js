@@ -3,6 +3,7 @@ import { auth } from '../firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/pages/login.scss';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 function Login() {
    const navigate = useNavigate();
@@ -34,7 +35,9 @@ function Login() {
                </div>
                <div className='sign-in_link'>
                   Still don't have an account?
-                  <Link to={'/register'}>Sing Up</Link>
+                  <motion.div whileHover={{ scale: 1.1 }} className='link'>
+                     <Link to={'/register'}>Sing Up</Link>
+                  </motion.div>
                </div>
             </div>
             <div className='form-container'>
@@ -47,7 +50,13 @@ function Login() {
                >
                   <input type='mail' placeholder='mail' required />
                   <input type='password' placeholder='password' required />
-                  <button type='submit'>Sign In</button>
+                  <motion.button
+                     whileHover={{ backgroundColor: '#73afe7', color: '#ffff' }}
+                     whileTap={{ scale: 0.9 }}
+                     type='submit'
+                  >
+                     Sign In
+                  </motion.button>
                </form>
                {err && (
                   <div className='error_message'>

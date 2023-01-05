@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db, storage } from '../firebase';
+import { motion } from 'framer-motion';
+import deleteSound from '../assets/sounds/deleting_sound.mp3';
 
 const Message = ({ message, dummy }) => {
    const [messageDeleteModal, setMessageDeleteModal] = useState(false);
@@ -57,10 +59,14 @@ const Message = ({ message, dummy }) => {
 
          deleteObject(storageRef);
       }
+
+      new Audio(deleteSound).play();
    };
 
    return (
-      <div
+      <motion.div
+         initial={{ opacity: 0, y: 30 }}
+         animate={{ opacity: 1, y: 0 }}
          ref={dummy}
          className={`message ${message.senderId === currentUser.uid && 'owner'}`}
       >
@@ -100,7 +106,7 @@ const Message = ({ message, dummy }) => {
                )}
             </div>
          </div>
-      </div>
+      </motion.div>
    );
 };
 

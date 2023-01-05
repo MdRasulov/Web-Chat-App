@@ -10,6 +10,7 @@ import {
    where,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
@@ -184,39 +185,46 @@ const Search = () => {
             <button type='submit' style={{ display: 'none' }}></button>
          </form>
          <div className='users_container'>
-            {dispalySearch && (
-               <div className='searching_container'>
-                  {!searchErr && users && (
-                     <div className='found_users'>
-                        <p>Results of the search....</p>
-                        {users
-                           .filter(user => user.userInfo.uid !== currentUser.uid)
-                           .map(user => (
-                              <div
-                                 className='found_user'
-                                 key={user.userInfo.uid}
-                                 onClick={() => {
-                                    setChat();
-                                    setChatLoading(true);
-                                    setSelectedUser(user.userInfo);
-                                    setDisplaySearch(false);
-                                 }}
-                              >
-                                 <div className='user_photo'>
-                                    <img src={user.userInfo.photoURL} alt='' />
+            <AnimatePresence>
+               {dispalySearch && (
+                  <motion.div
+                     initial={{ opacity: 0, y: -150 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     exit={{ opacity: 0, y: -150 }}
+                     className='searching_container'
+                  >
+                     {!searchErr && users && (
+                        <div className='found_users'>
+                           <p>Results of the search....</p>
+                           {users
+                              .filter(user => user.userInfo.uid !== currentUser.uid)
+                              .map(user => (
+                                 <div
+                                    className='found_user'
+                                    key={user.userInfo.uid}
+                                    onClick={() => {
+                                       setChat();
+                                       setChatLoading(true);
+                                       setSelectedUser(user.userInfo);
+                                       setDisplaySearch(false);
+                                    }}
+                                 >
+                                    <div className='user_photo'>
+                                       <img src={user.userInfo.photoURL} alt='' />
+                                    </div>
+                                    <div className='user_info'>
+                                       <p className='user_name'>
+                                          {user.userInfo.displayName}
+                                       </p>
+                                    </div>
                                  </div>
-                                 <div className='user_info'>
-                                    <p className='user_name'>
-                                       {user.userInfo.displayName}
-                                    </p>
-                                 </div>
-                              </div>
-                           ))}
-                     </div>
-                  )}
-                  {searchErr && <p>No matches are found</p>}
-               </div>
-            )}
+                              ))}
+                        </div>
+                     )}
+                     {searchErr && <p>No matches are found</p>}
+                  </motion.div>
+               )}
+            </AnimatePresence>
 
             <div className='chatList_container'>
                {chatListLoading && (
@@ -233,7 +241,8 @@ const Search = () => {
                            a.friendInfo.lastContactAt.seconds
                      )
                      .map(user => (
-                        <div
+                        <motion.div
+                           whileHover={{ backgroundColor: '#606f85' }}
                            className='user'
                            key={user.friendInfo.uid}
                            onClick={() => {
@@ -253,7 +262,7 @@ const Search = () => {
                                     : 'No any messages'}
                               </p>
                            </div>
-                        </div>
+                        </motion.div>
                      ))}
             </div>
          </div>

@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { motion } from 'framer-motion';
+import sound from '../assets/sounds/send_sound.mp3';
 
 function Input() {
    const { currentUser } = useContext(AuthContext);
@@ -79,13 +81,15 @@ function Input() {
          });
          setImage();
       }
+
+      new Audio(sound).play();
    };
 
    return (
       <div className='input-content'>
          <form
             onSubmit={e => {
-               if (e.target && chat) {
+               if ((e.target[0].value || image) && chat) {
                   handleInput(e);
                } else {
                   e.preventDefault();
@@ -93,9 +97,9 @@ function Input() {
             }}
          >
             <input type='text' placeholder='Add a message...' />
-            <button type='submit'>
+            <motion.button whileTap={{ scale: 0.8 }} type='submit'>
                <img src={require('../assets/send.png')} alt='' />
-            </button>
+            </motion.button>
             <input
                type='file'
                id='file'
@@ -106,13 +110,13 @@ function Input() {
                }}
             />
             <div className='additional-actions'>
-               <label htmlFor='file'>
+               <motion.label whileTap={{ scale: 0.8 }} htmlFor='file'>
                   {image ? (
                      <img src={require('../assets/image_selected.png')} alt='' />
                   ) : (
                      <img src={require('../assets/image.png')} alt='' />
                   )}
-               </label>
+               </motion.label>
             </div>
          </form>
       </div>
