@@ -48,8 +48,13 @@ const Settings = ({ setSettingState, setModal }) => {
    const changePhoto = async () => {
       try {
          const storageRef = ref(storage, `profilePhotos/${currentUser.uid}`);
-         //deleting old profile photo
-         await deleteObject(storageRef);
+         if (
+            currentUser.photoURL !==
+            'https://firebasestorage.googleapis.com/v0/b/chat-app-be141.appspot.com/o/profilePhotos%2FDefault%2FuserDefault.png?alt=media&token=71d181ae-9ea7-423f-88e9-28ec107534ec'
+         ) {
+            //deleting old profile photo
+            await deleteObject(storageRef);
+         }
 
          //submitting new profile photo
          await uploadBytesResumable(storageRef, newPhoto).then(async () => {
