@@ -134,11 +134,7 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
             </div>
          )}
          {settingState && (
-            <Settings
-               setModal={setModal}
-               setSettingState={setSettingState}
-               combinedId={combinedId}
-            />
+            <Settings setModal={setModal} setSettingState={setSettingState} />
          )}
          {loading && (
             <div className='loading_container'>

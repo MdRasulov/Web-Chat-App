@@ -18,7 +18,7 @@ import { AuthContext } from '../context/AuthContext';
 import { db, storage } from '../firebase';
 import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
-const Settings = ({ setSettingState, setModal, combinedId }) => {
+const Settings = ({ setSettingState, setModal }) => {
    const { currentUser } = useContext(AuthContext);
    const [newPhoto, setNewPhoto] = useState();
    const [changeState, setChangeState] = useState(false);
