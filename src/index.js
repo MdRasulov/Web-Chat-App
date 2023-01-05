@@ -9,7 +9,7 @@ import { ChatContextProvider } from './context/ChatContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
          <AuthContextProvider>
             <ChatContextProvider>
                <App />
