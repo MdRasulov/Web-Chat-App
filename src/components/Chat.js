@@ -1,16 +1,16 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import messagePic from '../assets/messages.png';
 import more from '../assets/more.png';
 import search from '../assets/search.png';
-import messagePic from '../assets/messages.png';
-import Message from './Message';
-import Input from './Input';
-import Modal from './Modal';
-import { AnimatePresence, motion } from 'framer-motion';
-import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
-import { ChatContext } from '../context/ChatContext';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
+import { ChatContext } from '../context/ChatContext';
+import { db } from '../firebase';
+import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
+import Input from './Input';
+import Message from './Message';
+import Modal from './Modal';
 
 const Chat = () => {
    const { chat, chatLoading, getCombinedId, modal, setModal } = useContext(ChatContext);

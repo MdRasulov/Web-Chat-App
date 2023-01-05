@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { db, storage } from '../firebase';
-import { AuthContext } from '../context/AuthContext';
-import { ChatContext } from '../context/ChatContext';
-import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { motion } from 'framer-motion';
+import React, { useContext, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import sound from '../assets/sounds/send_sound.mp3';
+import { AuthContext } from '../context/AuthContext';
+import { ChatContext } from '../context/ChatContext';
+import { db, storage } from '../firebase';
 
 function Input() {
    const { currentUser } = useContext(AuthContext);

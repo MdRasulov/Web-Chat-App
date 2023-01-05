@@ -1,12 +1,11 @@
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
-import React, { useContext } from 'react';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
+import React, { useContext, useState } from 'react';
+import deleteSound from '../assets/sounds/deleting_sound.mp3';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db, storage } from '../firebase';
-import { motion } from 'framer-motion';
-import deleteSound from '../assets/sounds/deleting_sound.mp3';
 
 const Message = ({ message, dummy }) => {
    const [messageDeleteModal, setMessageDeleteModal] = useState(false);

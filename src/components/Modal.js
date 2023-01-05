@@ -1,12 +1,11 @@
 import { deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, list, ref } from 'firebase/storage';
-import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
-import React, { useContext, useEffect } from 'react';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db, storage } from '../firebase';
-import { AnimatePresence, motion } from 'framer-motion';
+import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 import '../styles/modal.scss';
 import Settings from './Settings';
 

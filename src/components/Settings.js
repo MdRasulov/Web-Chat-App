@@ -12,11 +12,11 @@ import {
    ref,
    uploadBytesResumable,
 } from 'firebase/storage';
-import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { db, storage } from '../firebase';
+import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
 const Settings = ({ setSettingState, setModal, combinedId }) => {
    const { currentUser } = useContext(AuthContext);

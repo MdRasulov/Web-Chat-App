@@ -1,8 +1,8 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import Chat from '../components/Chat';
 import Searchbar from '../components/Searchbar';
 import Sidebar from '../components/Sidebar';
-import { motion } from 'framer-motion';
 import '../styles/pages/home.scss';
 
 function Home() {

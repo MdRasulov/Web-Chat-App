@@ -1,9 +1,9 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/pages/login.scss';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import '../styles/pages/login.scss';
 
 function Login() {
    const navigate = useNavigate();

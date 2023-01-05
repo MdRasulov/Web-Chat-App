@@ -1,13 +1,12 @@
-import React from 'react';
-import '../styles/pages/register.scss';
-import { auth, db, storage } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, db, storage } from '../firebase';
+import LoadingType1 from '../loadingAnimations/loadingType1/LoadingType1';
+import '../styles/pages/register.scss';
 
 function Register() {
    const navigate = useNavigate();

@@ -9,9 +9,8 @@ import {
    updateDoc,
    where,
 } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db } from '../firebase';

@@ -1,12 +1,11 @@
-import React from 'react';
-import logout from '../assets/logout.png';
-import settings from '../assets/settings.png';
-import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 import { motion } from 'framer-motion';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import logout from '../assets/logout.png';
+import settings from '../assets/settings.png';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
+import { auth } from '../firebase';
 
 const Sidebar = () => {
    const { currentUser } = useContext(AuthContext);
