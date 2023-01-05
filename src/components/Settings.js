@@ -282,7 +282,13 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                               placeholder={currentUser.displayName}
                               required
                            />
-                           <button type='submit'>Change</button>
+                           <motion.button
+                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
+                              whileTap={{ scale: 0.9 }}
+                              type='submit'
+                           >
+                              Change
+                           </motion.button>
                         </form>
                      </motion.div>
                   )}
@@ -304,7 +310,13 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                         >
                            <input type='mail' placeholder='new mail' required />
                            <input type='password' placeholder='enter password' required />
-                           <button type='submit'>Change</button>
+                           <motion.button
+                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
+                              whileTap={{ scale: 0.9 }}
+                              type='submit'
+                           >
+                              Change
+                           </motion.button>
                         </form>
                      </motion.div>
                   )}
@@ -339,7 +351,13 @@ const Settings = ({ setSettingState, setModal, combinedId }) => {
                               placeholder='repeat password'
                               required
                            />
-                           <button type='submit'>Change</button>
+                           <motion.button
+                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
+                              whileTap={{ scale: 0.9 }}
+                              type='submit'
+                           >
+                              Change
+                           </motion.button>
                         </form>
                      </motion.div>
                   )}

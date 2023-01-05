@@ -21,6 +21,7 @@
       width: 25%;
       height: 25%;
       background-color: #212229;
+      box-shadow: -1px 1px 3px 0px rgb(6, 6, 6);
       overflow: hidden;
       border-radius: 0.5rem;
       gap: 2rem;
@@ -60,6 +61,7 @@
       height: 80%;
       position: relative;
       background-color: #282932;
+      box-shadow: -1px 1px 3px 0px rgb(26, 26, 26);
       padding: 1rem;
       border-radius: 1rem;
 
@@ -95,6 +97,7 @@
 
          .image {
             background-color: #212229;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 18px, rgba(3, 3, 3, 0.05) 0px 10px 34px;
             cursor: pointer;
             img {
                width: 100%;
