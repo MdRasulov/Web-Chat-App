@@ -16,12 +16,11 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
    const [imageURLs, setImageURLs] = useState();
    const [loading, setLoading] = useState(false);
 
-   const combinedId = getCombinedId(chat.uid);
-   const storageRef = ref(storage, `chatGallery/${combinedId}/`);
-
    // fetching all images of the chat from cloud storage
    useEffect(() => {
       const fetchMedia = async () => {
+         const combinedId = getCombinedId(chat.uid);
+         const storageRef = ref(storage, `chatGallery/${combinedId}/`);
          const arr = [];
          setLoading(true);
          try {
@@ -49,6 +48,8 @@ function Modal({ deleteState, setDeleteState, mediaState, setMediaState }) {
 
    //funct that deletes the chat and all data connected to chat
    const deleteChat = async () => {
+      const combinedId = getCombinedId(chat.uid);
+      const storageRef = ref(storage, `chatGallery/${combinedId}/`);
       //delete chat for user and connected friend
       await deleteDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId));
       await deleteDoc(doc(db, 'users', chat.uid, 'chats', combinedId));
