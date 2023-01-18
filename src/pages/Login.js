@@ -58,11 +58,9 @@ function Login() {
                      Sign In
                   </motion.button>
                </form>
-               {err && (
-                  <div className='error_message'>
-                     <p>Invalid email or password</p>
-                  </div>
-               )}
+               <div className='error_message'>
+                  {err && <p>Invalid email or password</p>}
+               </div>
             </div>
          </div>
       </div>

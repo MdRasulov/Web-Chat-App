@@ -38,3 +38,12 @@
       }
    }
 }
+@media screen and (max-width: 850px) {
+   .greeting-login {
+      padding: 2rem;
+
+      .sign-in_link {
+         margin-top: 1.5rem;
+      }
+   }
+}

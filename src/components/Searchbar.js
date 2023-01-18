@@ -16,7 +16,7 @@ import { ChatContext } from '../context/ChatContext';
 import { db } from '../firebase';
 import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
-const Search = () => {
+const Searchbar = () => {
    const { currentUser } = useContext(AuthContext);
    const { setChat, chatList, setChatLoading, chatListLoading, getCombinedId } =
       useContext(ChatContext);
@@ -138,33 +138,6 @@ const Search = () => {
       setChatLoading(false);
    };
 
-   //fetch latest chat
-   useEffect(() => {
-      const fetchLastConversation = async () => {
-         let combinedId;
-         await getDoc(doc(db, 'users', currentUser.uid)).then(doc => {
-            combinedId = doc.data().userInfo.lastConversationWith;
-         });
-         if (combinedId) {
-            await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
-               doc => {
-                  if (doc.exists()) {
-                     setChat(doc.data().friendInfo);
-                     setChatLoading(false);
-                  } else {
-                     setChat();
-                     setChatLoading(false);
-                  }
-               }
-            );
-         } else {
-            setChatLoading(false);
-         }
-      };
-
-      currentUser && fetchLastConversation();
-   }, [currentUser]);
-
    return (
       <div className='searchbar'>
          <h1>Chats</h1>
@@ -269,4 +242,4 @@ const Search = () => {
    );
 };
 
-export default Search;
+export default Searchbar;

@@ -1,0 +1,77 @@
+.mobile__sidebar-modal {
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.45);
+   z-index: 5;
+
+   .mobile__sidebar {
+      width: 40%;
+      height: 100%;
+      background-color: #212229;
+      position: relative;
+
+      .close__button,
+      .settings__button {
+         position: absolute;
+         top: 0;
+         right: -9.5%;
+         width: 10%;
+         height: 4rem;
+         background-color: #212229;
+         border: 1px solid #73afe7;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+
+         img {
+            width: 2rem;
+            height: 2rem;
+            object-fit: cover;
+         }
+      }
+
+      .settings__button {
+         top: 4.2rem;
+      }
+
+      .searchbar {
+         width: 100%;
+         height: 100%;
+      }
+
+      .mobile__chats,
+      .mobile__settings {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: #212229;
+         z-index: 10;
+
+         .searchbar,
+         .sidebar {
+            width: 100%;
+            height: 100%;
+         }
+      }
+
+      .mobile__settings {
+         z-index: 15;
+      }
+   }
+
+   @media screen and (max-width: 840px) {
+      .mobile__sidebar {
+         width: 50%;
+      }
+   }
+   @media screen and (max-width: 540px) {
+      .mobile__sidebar {
+         width: 90%;
+      }
+   }
+}

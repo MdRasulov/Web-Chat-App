@@ -1,4 +1,4 @@
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import messagePic from '../assets/messages.png';
@@ -13,12 +13,40 @@ import Message from './Message';
 import Modal from './Modal';
 
 const Chat = () => {
-   const { chat, chatLoading, getCombinedId, modal, setModal } = useContext(ChatContext);
+   const { chat, chatLoading, getCombinedId, modal, setModal, setChatLoading, setChat } =
+      useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
    const [actionsModal, SetActionsModal] = useState(false);
    const [mediaState, setMediaState] = useState(false);
    const [deleteState, setDeleteState] = useState(false);
+
+   //fetch latest chat
+   useEffect(() => {
+      const fetchLastConversation = async () => {
+         let combinedId;
+         await getDoc(doc(db, 'users', currentUser.uid)).then(doc => {
+            combinedId = doc.data().userInfo.lastConversationWith;
+         });
+         if (combinedId) {
+            await getDoc(doc(db, 'users', currentUser.uid, 'chats', combinedId)).then(
+               doc => {
+                  if (doc.exists()) {
+                     setChat(doc.data().friendInfo);
+                     setChatLoading(false);
+                  } else {
+                     setChat();
+                     setChatLoading(false);
+                  }
+               }
+            );
+         } else {
+            setChatLoading(false);
+         }
+      };
+
+      currentUser && fetchLastConversation();
+   }, [currentUser]);
 
    //fetching and subscribing to the chat messages
    useEffect(() => {
@@ -147,6 +175,9 @@ const Chat = () => {
                      </div>
                   )}
                </div>
+               <div className='chat_input'>
+                  <Input />
+               </div>
             </>
          ) : (
             <div className='no_chat'>
@@ -155,10 +186,6 @@ const Chat = () => {
                <p className='find_a_friend'>Find a friend and start conversation =)</p>
             </div>
          )}
-
-         <div className='chat_input'>
-            <Input />
-         </div>
       </div>
    );
 };

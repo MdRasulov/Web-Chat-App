@@ -11,6 +11,7 @@
       display: flex;
       height: 70%;
       width: 50%;
+      margin: 2rem 0;
       background-color: #73afe7;
       border-radius: 0.7rem;
       overflow: hidden;
@@ -144,5 +145,49 @@
       align-items: center;
       background-color: rgba(0, 0, 0, 0.35);
       z-index: 100;
+   }
+
+   /* ----------------- Media Querries --------------------- */
+
+   @media screen and (max-width: 1250px) {
+      .container {
+         width: 75%;
+      }
+   }
+   @media screen and (max-width: 850px) {
+      .container {
+         display: block;
+         width: 65%;
+         height: max-content;
+
+         .greeting,
+         .form-container {
+            padding: 1.5rem;
+
+            .error_message {
+               margin-top: 1rem;
+            }
+         }
+      }
+   }
+}
+@media screen and (max-width: 480px) {
+   .wrapper {
+      height: max-content;
+      .container {
+         width: 85%;
+
+         .greeting {
+            .sign-in_link {
+               margin-top: 2.5rem;
+            }
+         }
+
+         .form-container {
+            form {
+               width: 85%;
+            }
+         }
+      }
    }
 }

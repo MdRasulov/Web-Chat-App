@@ -61,7 +61,7 @@
                display: flex;
                width: 100%;
                padding: 0.2rem;
-               gap: 1rem;
+               gap: 3%;
                cursor: pointer;
 
                .user_photo {
@@ -77,7 +77,7 @@
                }
 
                .user_info {
-                  width: 80%;
+                  width: 77%;
                   display: flex;
                   flex-direction: column;
 
@@ -185,10 +185,11 @@
 
       .chat_info {
          width: 100%;
-         height: 12%;
+         height: 5.5rem;
          background-color: #282932;
          display: flex;
          align-items: center;
+         position: relative;
 
          .user_photo {
             margin: 0 1rem 0 2rem;
@@ -203,13 +204,12 @@
          .user_info {
             margin-right: auto;
             p {
-               font-size: 2.5rem;
+               font-size: clamp(0.8rem, 2vw + 1rem, 2.5rem);
                font-weight: 500;
             }
          }
 
          .actions_container {
-            position: relative;
             margin: 0 2rem 0 1rem;
 
             .action_buttons {
@@ -224,8 +224,8 @@
                width: 15rem;
                height: 8rem;
                position: absolute;
-               top: 60px;
-               right: -32px;
+               top: 100%;
+               right: 0;
                background-color: #212229;
                color: #ffffff;
                box-shadow: -1px 1px 3px 0px rgb(6, 6, 6);
@@ -262,7 +262,7 @@
          flex-direction: column;
          gap: 2rem;
          width: 100%;
-         height: 80%;
+         height: calc(100vh - 9rem);
          padding: 2rem;
 
          .message_loading {
@@ -307,6 +307,7 @@
                }
 
                .message-content {
+                  font-size: 1.15rem;
                   margin-top: 0.2rem;
                   padding: 0.5rem 1rem;
                   background-color: #606f85;
@@ -353,10 +354,6 @@
                      width: 100%;
                      border-radius: 0.5rem;
                   }
-
-                  p {
-                     font-size: 1.15rem;
-                  }
                }
             }
          }
@@ -394,7 +391,7 @@
 
       .chat_input {
          width: 100%;
-         height: 8%;
+         height: 3.5rem;
          background-color: #282932;
          display: flex;
          align-items: center;
@@ -465,7 +462,7 @@
          gap: 0.1rem;
 
          .user_name {
-            font-size: 2rem;
+            font-size: clamp(0.7rem, 2vw + 0.5rem, 2rem);
             font-weight: 500;
          }
          .user_mail {
@@ -488,17 +485,14 @@
          color: #ffffff;
 
          .settings_container {
+            font-size: 1.5rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             margin-top: 2rem;
             width: max-content;
             cursor: pointer;
-
-            p {
-               font-size: 1.5rem;
-               font-weight: 600;
-            }
 
             img {
                width: 2.5rem;
@@ -529,4 +523,93 @@
          }
       }
    }
+
+   .burger__menu {
+      height: 100%;
+      width: 5%;
+      background-color: #282932;
+      display: flex;
+      justify-content: center;
+
+      .burger_button {
+         margin-top: 1.5rem;
+         width: 2.2rem;
+         height: 2.2rem;
+         cursor: pointer;
+
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+   }
+
+   /* ----------------- Media Querries --------------------- */
+
+   @media screen and (max-width: 1280px) {
+      .chat {
+         width: 65%;
+      }
+      .sidebar {
+         width: 30%;
+
+         .user_info {
+            img {
+               width: 7rem;
+               height: 7rem;
+            }
+         }
+         .settings {
+            .settings_container {
+               font-size: 1.2rem;
+            }
+         }
+      }
+   }
+
+   @media screen and (max-width: 850px) {
+      .chat {
+         width: 92%;
+      }
+      .burger__menu {
+         width: 8%;
+      }
+   }
+
+   @media screen and (max-width: 550px) {
+      .chat {
+         .chat_info {
+            .actions_container {
+               .action_pop-up {
+                  width: 13rem;
+                  height: 7rem;
+               }
+            }
+         }
+         .chat_messages {
+            gap: 1rem;
+            padding: 1rem;
+
+            .message {
+               gap: 1rem;
+
+               .user-photo {
+                  width: 2.5rem;
+                  height: 2.5rem;
+               }
+
+               .message-container {
+                  .message-content {
+                     font-size: 1rem;
+                     padding: 0.35rem 0.7rem;
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   // @media screen and (max-width: 350px) {
+   // }
 }
