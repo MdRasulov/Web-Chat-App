@@ -496,7 +496,8 @@
    }
 
    @media screen and (max-width: 550px) {
-      .setting_container {
+      .setting_container,
+      .media_container {
          .user {
             div {
                gap: 0.5rem;
@@ -524,6 +525,20 @@
                      font-size: 1.2rem;
                      margin-bottom: 0.7rem;
                   }
+               }
+            }
+         }
+         .images_container:has(.no_image) {
+            .no_image {
+               gap: 1rem;
+
+               img {
+                  width: 7rem;
+                  height: 7rem;
+               }
+               p {
+                  font-size: 1.3rem;
+                  width: 70%;
                }
             }
          }
