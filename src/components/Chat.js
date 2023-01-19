@@ -13,11 +13,19 @@ import Message from './Message';
 import Modal from './Modal';
 
 const Chat = () => {
-   const { chat, chatLoading, getCombinedId, modal, setModal, setChatLoading, setChat } =
-      useContext(ChatContext);
+   const {
+      chat,
+      chatLoading,
+      getCombinedId,
+      modal,
+      setModal,
+      setChatLoading,
+      setChat,
+      actionsModal,
+      SetActionsModal,
+   } = useContext(ChatContext);
    const { currentUser } = useContext(AuthContext);
    const [messages, setMessages] = useState();
-   const [actionsModal, SetActionsModal] = useState(false);
    const [mediaState, setMediaState] = useState(false);
    const [deleteState, setDeleteState] = useState(false);
 

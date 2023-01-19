@@ -1,13 +1,15 @@
-import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useContext, useEffect, useState } from 'react';
+import forwardIcon from '../assets/forward.png';
 import Chat from '../components/Chat';
 import MobileLayout from '../components/MobileLayout';
 import Searchbar from '../components/Searchbar';
 import Sidebar from '../components/Sidebar';
+import { ChatContext } from '../context/ChatContext';
 import '../styles/pages/home.scss';
-import forwardIcon from '../assets/forward.png';
 
 function Home() {
+   const { SetActionsModal } = useContext(ChatContext);
    const [openBurger, setOpenBurger] = useState(false);
    const [winSize, setWinSize] = useState(getWindowSize);
 
@@ -39,7 +41,7 @@ function Home() {
       >
          {winSize.innerWidth >= 1280 && (
             <>
-               <Searchbar />
+               <Searchbar setOpenBurger={setOpenBurger} />
                <Chat />
                <Sidebar />
             </>
@@ -47,23 +49,26 @@ function Home() {
          {winSize.innerWidth < 1280 && (
             <>
                <div
+                  className='burger__menu'
                   onClick={() => {
                      setOpenBurger(true);
+                     SetActionsModal(false);
                   }}
-                  className='burger__menu'
                >
-                  <div className='burger_button'>
+                  <motion.div className='burger_button' whileTap={{ scale: 0.8 }}>
                      <img src={forwardIcon} alt='' />
-                  </div>
+                  </motion.div>
                </div>
                <Chat />
                {winSize.innerWidth > 840 && <Sidebar />}
-               {openBurger && (
-                  <MobileLayout
-                     setOpenBurger={setOpenBurger}
-                     winWidth={winSize.innerWidth}
-                  />
-               )}
+               <AnimatePresence>
+                  {openBurger && (
+                     <MobileLayout
+                        setOpenBurger={setOpenBurger}
+                        winWidth={winSize.innerWidth}
+                     />
+                  )}
+               </AnimatePresence>
             </>
          )}
       </motion.div>

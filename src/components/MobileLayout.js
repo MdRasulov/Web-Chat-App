@@ -1,47 +1,63 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
+import backIcon from '../assets/go-back.png';
+import settingsIcon from '../assets/settings.png';
 import '../styles/mobileLayout.scss';
 import Searchbar from './Searchbar';
 import Sidebar from './Sidebar';
-import settingsIcon from '../assets/settings.png';
-import backIcon from '../assets/go-back.png';
 
 const MobileLayout = ({ winWidth, setOpenBurger }) => {
    const [openSettings, setOpenSettings] = useState(false);
 
    return (
       <div className='mobile__sidebar-modal'>
-         <div className='mobile__sidebar'>
+         <motion.div
+            className='mobile__sidebar'
+            initial={{ x: '-100vw' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100vw' }}
+            transition={{ duration: 0.5 }}
+         >
             {winWidth < 1280 && winWidth > 840 && <Searchbar />}
             {winWidth < 840 && (
                <>
                   <div className='mobile__chats'>
-                     <Searchbar />
+                     <Searchbar setOpenBurger={setOpenBurger} />
                   </div>
-                  <div
+                  <motion.div
                      className='settings__button'
+                     whileTap={{ scale: 0.8 }}
                      onClick={() => {
                         setOpenSettings(!openSettings);
                      }}
                   >
                      <img src={settingsIcon} alt='' />
-                  </div>
-                  {openSettings && (
-                     <div className='mobile__settings'>
-                        <Sidebar />
-                     </div>
-                  )}
+                  </motion.div>
+                  <AnimatePresence>
+                     {openSettings && (
+                        <motion.div
+                           className='mobile__settings'
+                           initial={{ x: '-100vw' }}
+                           animate={{ x: 0 }}
+                           exit={{ x: '-100vw' }}
+                        >
+                           <Sidebar />
+                        </motion.div>
+                     )}
+                  </AnimatePresence>
                </>
             )}
-            <div
+            <motion.div
                className='close__button'
+               whileTap={{ scale: 0.8 }}
                onClick={() => {
                   setOpenBurger(false);
                   setOpenSettings(false);
                }}
             >
                <img src={backIcon} alt='' />
-            </div>
-         </div>
+            </motion.div>
+         </motion.div>
       </div>
    );
 };

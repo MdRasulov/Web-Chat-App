@@ -184,7 +184,7 @@ const Settings = ({ setSettingState, setModal }) => {
                               whileHover={{ color: '#73afe7' }}
                               className='not-selected'
                            >
-                              Select new image
+                              Select image
                            </motion.p>
                         </>
                      )}
@@ -254,134 +254,151 @@ const Settings = ({ setSettingState, setModal }) => {
          <AnimatePresence>
             {changeState && (
                <motion.div exit={{ opacity: 0 }} className='change_container'>
-                  <button
-                     className='back'
-                     onClick={() => {
-                        setChangeName(false);
-                        setChangeMail(false);
-                        setChangePass(false);
-                        setChangeState(false);
-                        setErr();
-                     }}
-                  >
-                     <img src={require('../assets/back.png')} alt='' />
-                  </button>
-                  {changeName && (
-                     <motion.div
-                        initial={{ opacity: 0, x: '20vw' }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className='change_name'
+                  <div className='change_header'>
+                     <button
+                        className='back'
+                        onClick={() => {
+                           setChangeName(false);
+                           setChangeMail(false);
+                           setChangePass(false);
+                           setChangeState(false);
+                           setErr();
+                        }}
                      >
-                        <p>Enter your new Name</p>
-                        <form
-                           onSubmit={e => {
-                              e.preventDefault();
-                              if (e.target) {
-                                 setLoading(true);
-                                 changeUsername(e);
-                              }
-                           }}
+                        <img src={require('../assets/back.png')} alt='' />
+                     </button>
+                  </div>
+                  <div className='change_body'>
+                     {changeName && (
+                        <motion.div
+                           initial={{ opacity: 0, x: '20vw' }}
+                           animate={{ opacity: 1, x: 0 }}
+                           className='change_name'
                         >
-                           <input
-                              type='text'
-                              placeholder={currentUser.displayName}
-                              required
-                           />
-                           <motion.button
-                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
-                              whileTap={{ scale: 0.9 }}
-                              type='submit'
+                           <p>Enter your new Name</p>
+                           <form
+                              onSubmit={e => {
+                                 e.preventDefault();
+                                 if (e.target) {
+                                    setLoading(true);
+                                    changeUsername(e);
+                                 }
+                              }}
                            >
-                              Change
-                           </motion.button>
-                        </form>
-                     </motion.div>
-                  )}
-                  {changeMail && (
-                     <motion.div
-                        initial={{ opacity: 0, x: '20vw' }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className='change_email'
-                     >
-                        <p>Enter your new Mail</p>
-                        <form
-                           onSubmit={e => {
-                              e.preventDefault();
-                              if (e.target) {
-                                 setLoading(true);
-                                 changeEmail(e);
-                              }
-                           }}
+                              <input
+                                 type='text'
+                                 placeholder={currentUser.displayName}
+                                 required
+                              />
+                              <motion.button
+                                 whileHover={{
+                                    color: '#ffff',
+                                    backgroundColor: '#73afe7',
+                                 }}
+                                 whileTap={{ scale: 0.9 }}
+                                 type='submit'
+                              >
+                                 Change
+                              </motion.button>
+                           </form>
+                        </motion.div>
+                     )}
+                     {changeMail && (
+                        <motion.div
+                           initial={{ opacity: 0, x: '20vw' }}
+                           animate={{ opacity: 1, x: 0 }}
+                           className='change_email'
                         >
-                           <input type='mail' placeholder='new mail' required />
-                           <input type='password' placeholder='enter password' required />
-                           <motion.button
-                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
-                              whileTap={{ scale: 0.9 }}
-                              type='submit'
+                           <p>Enter your new Mail</p>
+                           <form
+                              onSubmit={e => {
+                                 e.preventDefault();
+                                 if (e.target) {
+                                    setLoading(true);
+                                    changeEmail(e);
+                                 }
+                              }}
                            >
-                              Change
-                           </motion.button>
-                        </form>
-                     </motion.div>
-                  )}
-                  {changePass && (
-                     <motion.div
-                        initial={{ opacity: 0, x: '20vw' }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className='change_pass'
-                     >
-                        <p>Enter your new Password</p>
-                        <form
-                           onSubmit={e => {
-                              e.preventDefault();
-                              if (e.target) {
-                                 setLoading(true);
-                                 changePassword(e);
-                              }
-                           }}
+                              <input type='mail' placeholder='new mail' required />
+                              <input
+                                 type='password'
+                                 placeholder='enter password'
+                                 required
+                              />
+                              <motion.button
+                                 whileHover={{
+                                    color: '#ffff',
+                                    backgroundColor: '#73afe7',
+                                 }}
+                                 whileTap={{ scale: 0.9 }}
+                                 type='submit'
+                              >
+                                 Change
+                              </motion.button>
+                           </form>
+                        </motion.div>
+                     )}
+                     {changePass && (
+                        <motion.div
+                           initial={{ opacity: 0, x: '20vw' }}
+                           animate={{ opacity: 1, x: 0 }}
+                           className='change_pass'
                         >
-                           <input
-                              type='password'
-                              placeholder='enter current password'
-                              required
-                           />
-                           <input
-                              type='password'
-                              placeholder='enter new password'
-                              required
-                           />
-                           <input
-                              type='password'
-                              placeholder='repeat password'
-                              required
-                           />
-                           <motion.button
-                              whileHover={{ color: '#ffff', backgroundColor: '#73afe7' }}
-                              whileTap={{ scale: 0.9 }}
-                              type='submit'
+                           <p>Enter your new Password</p>
+                           <form
+                              onSubmit={e => {
+                                 e.preventDefault();
+                                 if (e.target) {
+                                    setLoading(true);
+                                    changePassword(e);
+                                 }
+                              }}
                            >
-                              Change
-                           </motion.button>
-                        </form>
-                     </motion.div>
-                  )}
-                  {err && (
-                     <div className='error_message'>
-                        {err === 'auth/email-already-in-use' && (
-                           <p>This email is already used</p>
-                        )}
-                        {err === 'auth/weak-password' && (
-                           <p>Password should be at least 6 characters</p>
-                        )}
-                        {err === 'auth/invalid-email' && <p>Invalid email</p>}
-                        {err === 'passDontMatch' && (
-                           <p>Password fields should match to each other</p>
-                        )}
-                        {err === 'auth/wrong-password' && <p>Wrong password</p>}
-                     </div>
-                  )}
-                  {err && console.log(err)}
+                              <input
+                                 type='password'
+                                 placeholder='enter current password'
+                                 required
+                              />
+                              <input
+                                 type='password'
+                                 placeholder='enter new password'
+                                 required
+                              />
+                              <input
+                                 type='password'
+                                 placeholder='repeat password'
+                                 required
+                              />
+                              <motion.button
+                                 whileHover={{
+                                    color: '#ffff',
+                                    backgroundColor: '#73afe7',
+                                 }}
+                                 whileTap={{ scale: 0.9 }}
+                                 type='submit'
+                              >
+                                 Change
+                              </motion.button>
+                           </form>
+                        </motion.div>
+                     )}
+                     {err && (
+                        <div className='error_message'>
+                           {err === 'auth/email-already-in-use' && (
+                              <p>This email is already used</p>
+                           )}
+                           {err === 'auth/weak-password' && (
+                              <p>Password should be at least 6 characters</p>
+                           )}
+                           {err === 'auth/invalid-email' && <p>Invalid email</p>}
+                           {err === 'passDontMatch' && (
+                              <p>Password fields should match to each other</p>
+                           )}
+                           {err === 'auth/wrong-password' && <p>Wrong password</p>}
+                        </div>
+                     )}
+                     {err && console.log(err)}
+                  </div>
                </motion.div>
             )}
          </AnimatePresence>

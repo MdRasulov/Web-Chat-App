@@ -607,9 +607,11 @@
                }
             }
          }
+         .no_chat {
+            .no_active_chates {
+               font-size: 1.5rem;
+            }
+         }
       }
    }
-
-   // @media screen and (max-width: 350px) {
-   // }
 }

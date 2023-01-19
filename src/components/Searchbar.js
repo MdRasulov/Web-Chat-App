@@ -16,7 +16,7 @@ import { ChatContext } from '../context/ChatContext';
 import { db } from '../firebase';
 import LoadingType2 from '../loadingAnimations/loadingType2/LoadingType2';
 
-const Searchbar = () => {
+const Searchbar = ({ setOpenBurger }) => {
    const { currentUser } = useContext(AuthContext);
    const { setChat, chatList, setChatLoading, chatListLoading, getCombinedId } =
       useContext(ChatContext);
@@ -104,6 +104,7 @@ const Searchbar = () => {
          );
       }
       setSelectedUser();
+      setOpenBurger(false);
    };
 
    //updates last converversation for fetching lastest chat
@@ -160,10 +161,10 @@ const Searchbar = () => {
             <AnimatePresence>
                {dispalySearch && (
                   <motion.div
+                     className='searching_container'
                      initial={{ opacity: 0, y: -150 }}
                      animate={{ opacity: 1, y: 0 }}
                      exit={{ opacity: 0, y: -150 }}
-                     className='searching_container'
                   >
                      {!searchErr && users && (
                         <div className='found_users'>
@@ -214,11 +215,12 @@ const Searchbar = () => {
                      )
                      .map(user => (
                         <motion.div
-                           whileHover={{ backgroundColor: '#606f85' }}
                            className='user'
+                           whileHover={{ backgroundColor: '#606f85' }}
                            key={user.friendInfo.uid}
                            onClick={() => {
                               setChatLoading(true);
+                              setOpenBurger(false);
                               updateFriendInfo(user.friendInfo.uid);
                               lastConversation(user.friendInfo);
                            }}

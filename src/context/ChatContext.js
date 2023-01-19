@@ -13,6 +13,7 @@ export const ChatContextProvider = ({ children }) => {
    const [chatListLoading, setChatListLoading] = useState(true);
    const [chatList, setChatList] = useState();
    const [modal, setModal] = useState(false);
+   const [actionsModal, SetActionsModal] = useState(false);
    const [settingState, setSettingState] = useState(false);
    const unsubRef = useRef();
 
@@ -64,6 +65,8 @@ export const ChatContextProvider = ({ children }) => {
             setModal,
             settingState,
             setSettingState,
+            actionsModal,
+            SetActionsModal,
          }}
       >
          {children}
