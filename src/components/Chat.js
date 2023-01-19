@@ -186,6 +186,7 @@ const Chat = () => {
                <div className='chat_input'>
                   <Input />
                </div>
+               {/* test change */}
             </>
          ) : (
             <div className='no_chat'>
