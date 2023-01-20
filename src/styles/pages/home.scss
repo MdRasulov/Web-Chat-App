@@ -228,7 +228,7 @@
                right: 0;
                background-color: #212229;
                color: #ffffff;
-               box-shadow: -1px 1px 3px 0px rgb(6, 6, 6);
+               box-shadow: -1px 1px 3px 0px #060606;
                z-index: 10;
                border-radius: 0 0 0 0.5rem;
                overflow: hidden;
@@ -312,6 +312,7 @@
                   padding: 0.5rem 1rem;
                   background-color: #606f85;
                   border-radius: 0 0.6rem 0.6rem 0.6rem;
+                  box-shadow: -1px 1px 3px 0px #060606;
                   width: fit-content;
                   cursor: pointer;
                   position: relative;
@@ -528,6 +529,7 @@
       height: 100%;
       width: 5%;
       background-color: #282932;
+      border-right: 1px solid #73afe7;
       display: flex;
       justify-content: center;
 
