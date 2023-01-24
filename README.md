@@ -5,7 +5,7 @@ Features that the application has:
 - User Authorization
 - Searching and creating chats with users.
 - Sending messages and images.
-- Deleting any message or sent image.
+- Deleting any sent message or image.
 - Deleting chat with any user.
-- Displaying all images that was sent in chat.
+- Displaying all sent images from chat.
 - Changing all personal info of the user (photo, name, email, password).
